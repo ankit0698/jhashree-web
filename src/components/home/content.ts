@@ -43,6 +43,11 @@ export type BrandCardItem = {
   alt: string;
 };
 
+export type SocialLinkItem = {
+  href: string;
+  label: string;
+};
+
 export const navItems: NavItem[] = [
   { href: "#about", label: "About" },
   { href: "#services", label: "Services" },
@@ -176,5 +181,12 @@ export const brandCards: BrandCardItem[] = [
   {
     image: "/assets/memorable-brand-card.png",
     alt: "Jhashree brand identity card with memorable slogan",
+  },
+];
+
+export const socialLinks: SocialLinkItem[] = [
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/jhashree_/profilecard/?igsh=MXRkZ2xvNjRiOGhiYg%3D%3D",
   },
 ];

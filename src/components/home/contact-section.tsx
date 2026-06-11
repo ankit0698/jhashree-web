@@ -1,13 +1,15 @@
+import Image from "next/image";
+
 import SectionHeading from "@/components/home/section-heading";
 
 export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="mx-auto max-w-7xl scroll-mt-28 px-5 py-4 pb-20 sm:px-6 lg:px-8"
+      className="mx-auto max-w-7xl scroll-mt-28 px-4 py-4 pb-20 sm:px-6 lg:px-8"
     >
       <div className="overflow-hidden rounded-[2.5rem] border border-[var(--border-strong)] bg-[linear-gradient(135deg,#faefdb_0%,#f1d9ac_48%,#e2b15c_100%)] shadow-[0_30px_90px_rgba(94,61,18,0.14)]">
-        <div className="grid gap-8 px-6 py-8 sm:px-8 md:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:px-12 lg:py-12">
+        <div className="grid gap-6 px-4 py-6 sm:gap-8 sm:px-8 sm:py-8 md:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.8fr)] lg:px-12 lg:py-12">
           <div>
             <SectionHeading
               eyebrow="Contact"
@@ -16,7 +18,7 @@ export default function ContactSection() {
             />
 
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              <div className="rounded-[1.5rem] bg-white/[0.55] p-5 backdrop-blur">
+              <div className="rounded-[1.5rem] border border-white/35 bg-white/[0.58] p-4 backdrop-blur sm:p-5">
                 <p className="text-xs uppercase tracking-[0.28em] text-[var(--accent-deep)]">
                   Call
                 </p>
@@ -34,19 +36,19 @@ export default function ContactSection() {
                 </a>
               </div>
 
-              <div className="rounded-[1.5rem] bg-white/[0.55] p-5 backdrop-blur">
+              <div className="rounded-[1.5rem] border border-white/35 bg-white/[0.58] p-4 backdrop-blur sm:p-5">
                 <p className="text-xs uppercase tracking-[0.28em] text-[var(--accent-deep)]">
                   Email
                 </p>
-              <a
-                href="mailto:jhashri.productions@gmail.com"
-                className="mt-3 block overflow-wrap-anywhere text-lg font-semibold leading-tight text-[var(--foreground)]"
-              >
-                jhashri.productions@gmail.com
-              </a>
+                <a
+                  href="mailto:jhashri.productions@gmail.com"
+                  className="mt-3 block overflow-wrap-anywhere text-lg font-semibold leading-tight text-[var(--foreground)]"
+                >
+                  jhashri.productions@gmail.com
+                </a>
               </div>
 
-              <div className="rounded-[1.5rem] bg-white/[0.55] p-5 backdrop-blur sm:col-span-2">
+              <div className="rounded-[1.5rem] border border-white/35 bg-white/[0.58] p-4 backdrop-blur sm:col-span-2 sm:p-5">
                 <p className="text-xs uppercase tracking-[0.28em] text-[var(--accent-deep)]">
                   Address
                 </p>
@@ -60,8 +62,19 @@ export default function ContactSection() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-[2rem] bg-[rgba(63,37,11,0.90)] text-white shadow-[0_20px_50px_rgba(53,28,8,0.24)]">
-            <div className="px-6 pb-6 pt-6">
+          <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[rgba(63,37,11,0.90)] text-white shadow-[0_20px_50px_rgba(53,28,8,0.24)]">
+            <div className="pointer-events-none absolute -right-20 -top-16 hidden opacity-25 md:block">
+              <Image
+                src="/assets/circle.svg"
+                alt=""
+                aria-hidden="true"
+                width={280}
+                height={280}
+                className="h-auto w-56"
+              />
+            </div>
+
+            <div className="relative px-4 pb-5 pt-5 sm:px-6 sm:pb-6 sm:pt-6">
               <p className="text-sm uppercase tracking-[0.32em] text-[var(--accent-soft)]">
                 Location
               </p>
@@ -82,7 +95,7 @@ export default function ContactSection() {
               />
             </div>
 
-            <div className="px-6 py-6">
+            <div className="px-4 py-5 sm:px-6 sm:py-6">
               <a
                 href="https://www.google.com/maps/place/JhaShree+Productions/@26.359709,86.068952,16z/data=!4m6!3m5!1s0x39edcd72be971f77:0x8920325024312249!8m2!3d26.3597087!4d86.0689515!16s%2Fg%2F11x1ywn4_f?hl=en-US&entry=ttu&g_ep=EgoyMDI2MDYwMy4xIKXMDSoASAFQAw%3D%3D"
                 target="_blank"

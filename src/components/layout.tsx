@@ -22,6 +22,8 @@ export default function Layout({
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/assets/brand-logo.png" />
+        <link rel="apple-touch-icon" href="/assets/brand-logo.png" />
       </Head>
       <div className="min-h-screen bg-[var(--background)] text-[var(--foreground)]">
         {children}
