@@ -31,13 +31,6 @@ export type FeaturedWorkItem = {
   blurb: string;
 };
 
-export type ShowcaseWorkItem = {
-  title: string;
-  label: string;
-  description: string;
-  theme: "green" | "neon";
-};
-
 export type BrandCardItem = {
   image: string;
   alt: string;
@@ -153,23 +146,6 @@ export const featuredWork: FeaturedWorkItem[] = [
     alt: "Jhashree Productions video production pricing poster",
     blurb:
       "Clear production options for reels, documentaries, podcasts, camera-based shoots, and drone support.",
-  },
-];
-
-export const showcaseWorks: ShowcaseWorkItem[] = [
-  {
-    title: "Greenonions Restaurant",
-    label: "Client Work",
-    description:
-      "In response to inquiries regarding the high prices of dishes at the Client's restaurant, we took a proactive approach by creating an informative video that addresses these concerns head-on. This video not only breaks down the factors contributing to our pricing, such as the quality of ingredients, meticulous preparation processes, and exceptional culinary expertise, but also highlights the value that each dish brings to the dining experience.",
-    theme: "green",
-  },
-  {
-    title: "Motorist Madhubani",
-    label: "Client Work",
-    description:
-      "Showcasing a video of the modification of silencers on the Continental GT 650 at Motorist is not just an exhibition of technical skill; it is an invitation to experience the transformative power of customization. This engaging visual narrative highlights how subtle enhancements can elevate the riding experience, improving both performance and sound, which are crucial for any motorcycle enthusiast.",
-    theme: "neon",
   },
 ];
 
