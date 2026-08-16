@@ -13,6 +13,7 @@ import type { FormEvent, ReactElement } from "react";
 import { useEffect, useState } from "react";
 
 import { firebaseAuth } from "@/lib/firebase/client";
+import { MithilaBand, MithilaSun } from "@/components/ui/mithila-motifs";
 
 function getSignInError(error: unknown) {
   if (!(error instanceof FirebaseError)) {
@@ -84,21 +85,41 @@ export default function AdminLoginPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
-      <main className="relative grid min-h-screen place-items-center overflow-hidden px-5 py-12">
-        <div
-          aria-hidden="true"
-          className="absolute -left-24 top-[-8rem] h-80 w-80 rounded-full bg-[var(--accent)]/15 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute -bottom-32 -right-20 h-96 w-96 rounded-full bg-[var(--accent-green)]/10 blur-3xl"
-        />
+      <main className="relative grid min-h-screen place-items-center overflow-hidden bg-[var(--ink)] px-5 py-10">
+        <MithilaBand className="absolute inset-x-0 top-0 h-3 bg-[var(--rust)] text-[var(--rust)]" />
+        <section className="relative grid w-full max-w-4xl overflow-hidden border border-white/15 bg-[var(--paper-light)] shadow-[var(--shadow-deep)] md:grid-cols-[0.9fr_1.1fr]">
+          <div className="relative hidden min-h-[40rem] overflow-hidden bg-[var(--rust)] p-10 text-[var(--hero-foreground)] md:flex md:flex-col md:justify-between">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 opacity-15 [background-image:linear-gradient(45deg,var(--accent-soft)_1px,transparent_1px),linear-gradient(-45deg,var(--accent-soft)_1px,transparent_1px)] [background-size:28px_28px]"
+            />
+            <MithilaSun className="pointer-events-none absolute -right-16 top-28 h-72 w-72 text-[var(--accent-soft)] opacity-25" />
+            <Link href="/" className="relative flex items-center gap-3">
+              <Image
+                src="/assets/brand-logo.png"
+                alt="Jhashree Productions"
+                width={64}
+                height={64}
+                priority
+                className="h-16 w-16 rounded-full border border-[var(--accent-soft)]/60 object-cover"
+              />
+              <span className="font-serif text-2xl">Jhashree Productions</span>
+            </Link>
+            <div className="relative">
+              <p className="text-[0.62rem] font-extrabold uppercase tracking-[0.3em] text-[var(--accent-soft)]">
+                Private studio
+              </p>
+              <p className="mt-4 font-serif text-5xl leading-[0.9]">
+                Shape the work. Curate the story.
+              </p>
+            </div>
+          </div>
 
-        <section className="relative w-full max-w-md rounded-[2rem] border border-[var(--border-strong)] bg-[var(--surface)]/95 p-7 shadow-[var(--shadow-deep)] backdrop-blur sm:p-10">
-          <div className="mb-8 text-center">
+          <div className="p-7 md:p-12">
+          <div className="mb-8">
             <Link
               href="/"
-              className="mx-auto mb-5 flex w-fit items-center gap-3 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-deep)]"
+              className="mb-7 flex w-fit items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent-deep)] md:hidden"
             >
               <Image
                 src="/assets/brand-logo.png"
@@ -106,7 +127,7 @@ export default function AdminLoginPage() {
                 width={58}
                 height={58}
                 priority
-                className="h-14 w-14 rounded-full object-cover shadow-md"
+                className="h-14 w-14 rounded-full border border-[var(--accent)] object-cover shadow-md"
               />
               <span className="text-left font-serif text-xl font-semibold leading-tight text-[var(--foreground-contrast)]">
                 Jhashree
@@ -116,11 +137,11 @@ export default function AdminLoginPage() {
               </span>
             </Link>
 
-            <p className="mb-2 text-xs font-bold tracking-[0.22em] text-[var(--accent-deep)] uppercase">
+            <p className="mb-3 text-[0.62rem] font-extrabold tracking-[0.26em] text-[var(--rust)] uppercase">
               Private access
             </p>
-            <h1 className="font-serif text-4xl font-semibold text-[var(--foreground-contrast)]">
-              Admin sign in
+            <h1 className="font-serif text-5xl font-semibold leading-none text-[var(--foreground-contrast)]">
+              Welcome back.
             </h1>
             <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
               Use an account created in Firebase Authentication.
@@ -150,7 +171,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="admin@example.com"
-                  className="w-full rounded-xl border border-[var(--border-strong)] bg-white px-4 py-3.5 text-[var(--foreground-contrast)] outline-none transition placeholder:text-[var(--muted)]/55 focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10"
+                  className="admin-input"
                 />
               </div>
 
@@ -170,7 +191,7 @@ export default function AdminLoginPage() {
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   placeholder="Enter your password"
-                  className="w-full rounded-xl border border-[var(--border-strong)] bg-white px-4 py-3.5 text-[var(--foreground-contrast)] outline-none transition placeholder:text-[var(--muted)]/55 focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10"
+                  className="admin-input"
                 />
               </div>
 
@@ -195,10 +216,11 @@ export default function AdminLoginPage() {
 
           <Link
             href="/"
-            className="admin-button admin-button-ghost mx-auto mt-5"
+            className="admin-button admin-button-ghost mx-auto mt-5 md:mx-0"
           >
             ← Return to website
           </Link>
+          </div>
         </section>
       </main>
     </>

@@ -1,24 +1,32 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5efe4;
-  --foreground: #311d10;
-  --foreground-contrast: #221208;
-  --muted: #6b503a;
-  --muted-strong: #523b29;
-  --surface: #fffaf2;
-  --surface-soft: #f2e4cc;
-  --accent: #d89b2f;
-  --accent-soft: #f2d28a;
-  --accent-deep: #9b5a1b;
-  --accent-green: #146550;
-  --hero-background: #120d09;
-  --hero-foreground: #f8efdf;
-  --hero-muted: #e3d4bf;
-  --border: rgba(114, 73, 25, 0.14);
-  --border-strong: rgba(114, 73, 25, 0.24);
-  --shadow-soft: 0 28px 70px rgba(84, 52, 16, 0.08);
-  --shadow-deep: 0 36px 100px rgba(44, 24, 7, 0.14);
+  --background: #faf4ea;
+  --foreground: #24221f;
+  --foreground-contrast: #11110f;
+  --muted: #6c665e;
+  --muted-strong: #4e4943;
+  --surface: #faf4ea;
+  --surface-soft: #eee3d4;
+  --accent: #c38a3a;
+  --accent-soft: #ddad6c;
+  --accent-deep: #9d341f;
+  --accent-green: #555b39;
+  --hero-background: #11110f;
+  --hero-foreground: #faf4ea;
+  --hero-muted: #c8c0b5;
+  --border: rgba(33, 29, 24, 0.11);
+  --border-strong: rgba(33, 29, 24, 0.2);
+  --shadow-soft: 0 18px 54px rgba(34, 25, 18, 0.08);
+  --shadow-deep: 0 30px 80px rgba(17, 14, 11, 0.18);
+  --rust: #b84a2f;
+  --terracotta: #b84a2f;
+  --orange: #d26d32;
+  --peacock: #171714;
+  --indigo: #171714;
+  --paper: #f4ebdd;
+  --paper-light: #faf4ea;
+  --ink: #11110f;
 }
 
 @theme inline {
@@ -41,6 +49,16 @@
   img {
     display: block;
   }
+
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
 }
 
 * {
@@ -54,13 +72,8 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(
-      circle at top,
-      rgba(216, 155, 47, 0.18),
-      transparent 22%
-    ),
-    radial-gradient(circle at 18% 12%, rgba(255, 246, 227, 0.9), transparent 24%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.44), transparent 24rem),
+  background:
+    radial-gradient(circle at 15% 6%, rgba(255, 253, 248, 0.76), transparent 30rem),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-manrope), sans-serif;
@@ -71,20 +84,14 @@ body::before {
   pointer-events: none;
   position: fixed;
   inset: 0;
-  background: radial-gradient(
-      circle at 12% 14%,
-      rgba(216, 155, 47, 0.08),
-      transparent 22%
-    ),
-    radial-gradient(circle at 88% 28%, rgba(20, 101, 80, 0.06), transparent 20%),
-    radial-gradient(circle at 60% 82%, rgba(155, 90, 27, 0.06), transparent 24%),
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      transparent 38%,
-      rgba(216, 155, 47, 0.04) 100%
-    );
-  opacity: 1;
+  z-index: 50;
+  background-image:
+    radial-gradient(rgba(72, 42, 20, 0.12) 0.55px, transparent 0.65px),
+    radial-gradient(rgba(255, 255, 255, 0.42) 0.55px, transparent 0.65px);
+  background-position: 0 0, 3px 3px;
+  background-size: 6px 6px;
+  mix-blend-mode: multiply;
+  opacity: 0.12;
 }
 
 body::after {
@@ -92,17 +99,109 @@ body::after {
   pointer-events: none;
   position: fixed;
   inset: 0;
-  opacity: 0.16;
-  background-image: linear-gradient(
-      rgba(132, 91, 41, 0.07) 1px,
-      transparent 1px
-    ),
-    linear-gradient(90deg, rgba(132, 91, 41, 0.05) 1px, transparent 1px);
-  background-size: 72px 72px;
-  mask-image: radial-gradient(circle at center, black 45%, transparent 100%);
+  z-index: 50;
+  opacity: 0.025;
+  background-image: repeating-linear-gradient(
+    112deg,
+    transparent 0,
+    transparent 34px,
+    rgba(89, 50, 25, 0.13) 35px,
+    transparent 36px
+  );
 }
 
 @layer components {
+  .site-gutter {
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 48rem) {
+    .site-gutter {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .site-button {
+    @apply inline-flex min-h-12 items-center justify-center gap-3 border px-6 py-3 text-xs font-semibold transition duration-300;
+    @apply focus-visible:outline-2 focus-visible:outline-offset-4;
+    border-radius: 0.55rem;
+  }
+
+  .site-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .site-button-rust {
+    border-color: var(--rust);
+    background: linear-gradient(135deg, var(--rust), #9e351f);
+    color: #fffaf3;
+    box-shadow: 0 12px 28px rgba(113, 39, 24, 0.16);
+  }
+
+  .site-button-rust:hover {
+    border-color: #8e2e1c;
+    background: linear-gradient(135deg, #c05234, #a43620);
+  }
+
+  .site-button-ink {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--hero-foreground);
+    box-shadow: 0 14px 32px rgba(29, 16, 10, 0.15);
+  }
+
+  .site-button-ink:hover {
+    border-color: var(--rust);
+    background: var(--rust);
+  }
+
+  .site-button-outline-light {
+    border-color: rgba(255, 246, 229, 0.28);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--hero-foreground);
+    backdrop-filter: blur(14px);
+  }
+
+  .site-button-outline-light:hover {
+    border-color: rgba(255, 246, 229, 0.62);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .paper-panel {
+    border: 1px solid var(--border-strong);
+    background:
+      linear-gradient(rgba(255, 249, 236, 0.95), rgba(247, 236, 215, 0.94)),
+      var(--surface);
+    box-shadow: var(--shadow-soft);
+    border-radius: 0.8rem;
+  }
+
+  .heritage-frame {
+    position: relative;
+    border: 1px solid var(--border-strong);
+    box-shadow:
+      inset 0 0 0 5px rgba(251, 248, 241, 0.72),
+      inset 0 0 0 6px rgba(130, 93, 47, 0.1),
+      var(--shadow-soft);
+  }
+
+  .motif-strip {
+    background-color: var(--accent);
+    background-image:
+      linear-gradient(45deg, transparent 42%, rgba(72, 35, 16, 0.18) 43%, rgba(72, 35, 16, 0.18) 48%, transparent 49%),
+      linear-gradient(-45deg, transparent 42%, rgba(72, 35, 16, 0.18) 43%, rgba(72, 35, 16, 0.18) 48%, transparent 49%);
+    background-size: 20px 20px;
+  }
+
+  .film-frame {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--ink);
+    border-radius: 0.7rem;
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.24);
+  }
+
   .admin-button {
     @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-bold transition duration-200;
     @apply focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50;

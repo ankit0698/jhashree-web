@@ -4,6 +4,8 @@ import type { ReactElement } from "react";
 import { useCallback, useEffect, useState } from "react";
 
 import AdminShell from "@/components/admin/admin-shell";
+import DeleteWorkModal from "@/components/admin/delete-work-modal";
+import MessagesCta from "@/components/admin/messages-cta";
 import WorkPreview from "@/components/admin/work-preview";
 import { useAdminSession } from "@/hooks/use-admin-session";
 import {
@@ -19,6 +21,13 @@ export default function AdminPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [workToDelete, setWorkToDelete] = useState<Work | null>(null);
+  const [deleteError, setDeleteError] = useState("");
+
+  const closeDeleteModal = useCallback(() => {
+    setWorkToDelete(null);
+    setDeleteError("");
+  }, []);
 
   const loadWorks = useCallback(async () => {
     if (!user) return;
@@ -94,26 +103,22 @@ export default function AdminPage() {
     }
   }
 
-  async function deleteWork(work: Work) {
-    if (
-      !user ||
-      !window.confirm(
-        `Delete “${work.title}”? This also removes its uploaded media and cannot be undone.`,
-      )
-    ) {
-      return;
-    }
+  async function deleteWork() {
+    if (!user || !workToDelete) return;
+
+    const work = workToDelete;
 
     setUpdatingId(work.id);
-    setError("");
+    setDeleteError("");
 
     try {
       await deleteAdminWork(user, work.id);
       setWorks((currentWorks) =>
         currentWorks.filter((item) => item.id !== work.id),
       );
+      closeDeleteModal();
     } catch (deleteError) {
-      setError(
+      setDeleteError(
         deleteError instanceof Error
           ? deleteError.message
           : "The work could not be deleted.",
@@ -131,8 +136,8 @@ export default function AdminPage() {
       </Head>
 
       <AdminShell user={user} isCheckingSession={isCheckingSession}>
-        <section className="py-7 sm:py-10">
-          <div className="relative overflow-hidden rounded-[2rem] border border-[var(--border)] bg-[linear-gradient(135deg,rgba(255,250,242,0.98),rgba(242,228,204,0.88))] p-6 shadow-[var(--shadow-soft)] sm:p-9">
+        <section className="py-7 md:py-10">
+          <div className="relative overflow-hidden border border-[var(--border)] bg-[linear-gradient(135deg,rgba(255,250,242,0.98),rgba(242,228,204,0.88))] p-6 shadow-[var(--shadow-soft)] md:p-9">
             <div
               aria-hidden="true"
               className="absolute -right-16 -top-20 h-52 w-52 rounded-full bg-[var(--accent)]/12 blur-3xl"
@@ -142,10 +147,10 @@ export default function AdminPage() {
                 <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent-deep)] uppercase">
                   Portfolio manager
                 </p>
-                <h1 className="mt-2 font-serif text-5xl font-semibold leading-none text-[var(--foreground-contrast)] sm:text-6xl">
+                <h1 className="mt-2 font-serif text-5xl font-semibold leading-none text-[var(--foreground-contrast)] md:text-6xl">
                   Our Works
                 </h1>
-                <span className="mt-5 inline-flex rounded-full border border-[var(--border)] bg-white/75 px-3 py-1.5 text-xs font-bold text-[var(--muted)] shadow-sm">
+                <span className="mt-5 inline-flex border-l-4 border-l-[var(--rust)] bg-white/75 px-3 py-1.5 text-xs font-bold text-[var(--muted)] shadow-sm">
                   {works.length} {works.length === 1 ? "work" : "works"}
                 </span>
               </div>
@@ -170,6 +175,8 @@ export default function AdminPage() {
             </div>
           </div>
 
+          <MessagesCta user={user} />
+
           {error ? (
             <div
               role="alert"
@@ -192,9 +199,9 @@ export default function AdminPage() {
               <span className="sr-only">Loading works</span>
             </div>
           ) : works.length === 0 && !error ? (
-            <div className="mt-6 grid min-h-80 place-items-center rounded-[2rem] border border-dashed border-[var(--border-strong)] bg-[var(--surface)]/85 px-6 py-12 text-center shadow-[var(--shadow-soft)]">
+            <div className="mt-6 grid min-h-80 place-items-center border border-dashed border-[var(--border-strong)] bg-[var(--surface)]/85 px-6 py-12 text-center shadow-[var(--shadow-soft)]">
               <div>
-                <span className="mx-auto grid h-16 w-16 place-items-center rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] text-[var(--accent-deep)] shadow-sm">
+                <span className="mx-auto grid h-16 w-16 place-items-center border border-[var(--border)] bg-[var(--surface-soft)] text-[var(--accent-deep)] shadow-sm">
                   <svg
                     aria-hidden="true"
                     viewBox="0 0 24 24"
@@ -236,14 +243,14 @@ export default function AdminPage() {
               </div>
             </div>
           ) : (
-            <div className="mt-9 grid gap-5 lg:grid-cols-2">
+            <div className="mt-9 grid gap-5 md:grid-cols-2">
               {works.map((work) => {
                 const isUpdating = updatingId === work.id;
 
                 return (
                   <article
                     key={work.id}
-                    className="grid overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-soft)] sm:grid-cols-[13rem_1fr]"
+                    className="grid overflow-hidden border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-soft)] md:grid-cols-[13rem_1fr]"
                   >
                     <WorkPreview media={work.media} title={work.title} />
 
@@ -293,7 +300,10 @@ export default function AdminPage() {
                         </button>
                         <button
                           type="button"
-                          onClick={() => deleteWork(work)}
+                          onClick={() => {
+                            setDeleteError("");
+                            setWorkToDelete(work);
+                          }}
                           disabled={isUpdating}
                           className="admin-button admin-button-danger admin-button-sm"
                         >
@@ -307,6 +317,16 @@ export default function AdminPage() {
             </div>
           )}
         </section>
+
+        {workToDelete ? (
+          <DeleteWorkModal
+            workTitle={workToDelete.title}
+            isDeleting={updatingId === workToDelete.id}
+            error={deleteError}
+            onCancel={closeDeleteModal}
+            onConfirm={deleteWork}
+          />
+        ) : null}
       </AdminShell>
     </>
   );

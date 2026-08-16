@@ -50,7 +50,7 @@ export default function EditWorkPage() {
       </Head>
 
       <AdminShell user={user} isCheckingSession={isCheckingSession}>
-        <section className="py-10 sm:py-14">
+        <section className="py-10 md:py-14">
           <Link
             href="/admin"
             className="admin-button admin-button-ghost -ml-3"
