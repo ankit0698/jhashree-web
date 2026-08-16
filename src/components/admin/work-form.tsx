@@ -260,8 +260,8 @@ export default function WorkForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-7">
-      <section className="grid gap-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-soft)] sm:grid-cols-2 sm:p-7">
-        <div className="sm:col-span-2">
+      <section className="grid gap-5 border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-soft)] md:grid-cols-2 md:p-7">
+        <div className="md:col-span-2">
           <label className="mb-2 block text-sm font-bold" htmlFor="title">
             Work title
           </label>
@@ -308,7 +308,7 @@ export default function WorkForm({
           />
         </div>
 
-        <div className="sm:col-span-2">
+        <div className="md:col-span-2">
           <label className="mb-2 block text-sm font-bold" htmlFor="description">
             Description
           </label>
@@ -357,19 +357,19 @@ export default function WorkForm({
         </div>
       </section>
 
-      <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-soft)] sm:p-7">
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[var(--shadow-soft)] md:p-7">
         <h2 className="font-serif text-3xl font-semibold">Work media</h2>
         <p className="mt-1 text-sm text-[var(--muted)]">
           Choose one media source for this work.
         </p>
 
-        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
           {(["youtube", "upload"] as const).map((source) => (
             <button
               key={source}
               type="button"
               onClick={() => selectMediaSource(source)}
-              className={`rounded-xl border px-4 py-4 text-left transition ${
+              className={`border px-4 py-4 text-left transition ${
                 mediaSource === source
                   ? "border-[var(--accent)] bg-[var(--accent)]/10 ring-2 ring-[var(--accent)]/10"
                   : "border-[var(--border-strong)] bg-white hover:border-[var(--accent)]"
@@ -423,7 +423,7 @@ export default function WorkForm({
 
             <label
               htmlFor="media-file"
-              className="mt-5 flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed border-[var(--border-strong)] bg-white px-5 py-10 text-center transition hover:border-[var(--accent)]"
+              className="mt-5 flex cursor-pointer flex-col items-center justify-center border-2 border-dashed border-[var(--border-strong)] bg-white px-5 py-10 text-center transition hover:border-[var(--accent)]"
             >
               <span className="font-bold">
                 {selectedFile ? selectedFile.name : `Choose ${uploadType}`}

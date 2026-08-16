@@ -42,43 +42,48 @@ export type SocialLinkItem = {
 };
 
 export const navItems: NavItem[] = [
+  { href: "#top", label: "Home" },
   { href: "#about", label: "About" },
+  { href: "#works", label: "Work" },
   { href: "#services", label: "Services" },
-  { href: "#works", label: "Works" },
   { href: "#contact", label: "Contact" },
 ];
 
 export const stats: StatItem[] = [
   {
-    value: "3+",
-    label: "Core production services spanning content, visuals, and events.",
+    value: "6+",
+    label: "Years of Experience",
   },
   {
-    value: "4",
-    label: "Structured process steps from concept through polished delivery.",
+    value: "120+",
+    label: "Projects Completed",
   },
   {
-    value: "100%",
-    label:
-      "Brand-first focus with local relevance and platform-ready execution.",
+    value: "50+",
+    label: "Happy Clients",
   },
 ];
 
 export const services: ServiceItem[] = [
   {
+    title: "Video Production",
+    description:
+      "From concept to creation, we produce compelling films that tell your story beautifully.",
+  },
+  {
+    title: "Social Media Management",
+    description:
+      "We design strategies and content that build your brand and engage your audience.",
+  },
+  {
     title: "Content Creation",
     description:
-      "Scripts, reels, branded storytelling, and local-first campaigns designed to connect with real audiences.",
+      "Creative content that connects, inspires, and converts across platforms.",
   },
   {
-    title: "Visual Arts Creation",
+    title: "Branding",
     description:
-      "Creative direction, on-brand graphics, and striking visuals that give every campaign a stronger identity.",
-  },
-  {
-    title: "Event Production",
-    description:
-      "On-ground coverage, live event execution, and polished edits that turn moments into memorable media.",
+      "Building identities that reflect your vision and leave a lasting impression.",
   },
 ];
 
@@ -111,24 +116,24 @@ export const processSteps: ProcessStep[] = [
 
 export const highlights: HighlightItem[] = [
   {
-    title: "Culturally Rooted",
+    title: "Creative Storytelling",
     description:
-      "Rooted in Madhubani with a strong local lens instead of generic trend-led branding.",
+      "Every frame begins with a clear, human story.",
   },
   {
-    title: "Commercially Sharp",
+    title: "Cultural Connection",
     description:
-      "Branding, media, marketing, and promotional video work built to look polished and perform.",
+      "Mithila's visual language grounds our perspective.",
   },
   {
-    title: "Flexible Packages",
+    title: "Modern Approach",
     description:
-      "Social media support for local businesses, creators, and brands ready to scale their presence.",
+      "Contemporary craft shaped for today's platforms.",
   },
   {
-    title: "Story-First Output",
+    title: "Result Driven",
     description:
-      "Short-form reels, ad creatives, and event storytelling centered on clarity and recall.",
+      "Beautiful work designed to create real impact.",
   },
 ];
 

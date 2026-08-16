@@ -29,7 +29,7 @@ export default function AdminShell({
 
   if (isCheckingSession || !user) {
     return (
-      <main className="grid min-h-screen place-items-center" role="status">
+      <main className="grid min-h-screen place-items-center bg-[var(--ink)]" role="status">
         <span className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--accent-soft)] border-t-[var(--accent-deep)]" />
         <span className="sr-only">Checking Firebase session</span>
       </main>
@@ -37,22 +37,23 @@ export default function AdminShell({
   }
 
   return (
-    <main className="relative min-h-screen px-4 py-5 sm:px-8 sm:py-8">
-      <div className="mx-auto max-w-6xl">
-        <header className="flex flex-wrap items-center justify-between gap-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/90 px-5 py-4 shadow-[var(--shadow-soft)] backdrop-blur sm:px-7">
+    <main className="relative min-h-screen">
+      <div className="h-[3px] bg-[var(--rust)]" />
+      <div className="border-b border-white/10 bg-[var(--ink)] px-4 py-4 text-[var(--hero-foreground)] md:px-8">
+        <header className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-5">
           <Link href="/admin" className="flex items-center gap-3">
             <Image
               src="/assets/brand-logo.png"
               alt="Jhashree Productions"
               width={46}
               height={46}
-              className="h-11 w-11 rounded-full object-cover"
+              className="h-11 w-11 rounded-full border border-[var(--accent)]/50 object-cover"
             />
             <div>
-              <p className="font-serif text-xl font-semibold leading-none">
+              <p className="font-serif text-xl font-semibold leading-none text-[var(--hero-foreground)]">
                 Jhashree Productions
               </p>
-              <p className="mt-1 text-xs font-bold tracking-[0.16em] text-[var(--accent-deep)] uppercase">
+              <p className="mt-1 text-[0.6rem] font-bold tracking-[0.22em] text-[var(--accent)] uppercase">
                 Admin dashboard
               </p>
             </div>
@@ -61,7 +62,7 @@ export default function AdminShell({
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="admin-button admin-button-ghost hidden sm:inline-flex"
+              className="admin-button hidden border-white/15 bg-white/[0.05] text-[var(--hero-muted)] hover:border-[var(--accent)] hover:text-white md:inline-flex"
             >
               View website
             </Link>
@@ -69,15 +70,15 @@ export default function AdminShell({
               type="button"
               onClick={handleSignOut}
               disabled={isSigningOut}
-              className="admin-button admin-button-secondary"
+              className="admin-button border-[var(--accent)] bg-[var(--accent)] text-[var(--ink)] hover:bg-[var(--accent-soft)]"
             >
               {isSigningOut ? "Signing out…" : "Sign out"}
             </button>
           </div>
         </header>
-
-        {children}
       </div>
+
+      <div className="mx-auto max-w-6xl px-4 md:px-8">{children}</div>
     </main>
   );
 }

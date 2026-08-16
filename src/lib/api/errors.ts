@@ -1,5 +1,6 @@
 import type { NextApiResponse } from "next";
 
+import { EnquiryValidationError } from "@/lib/enquiries/validation";
 import { AdminAuthenticationError } from "@/lib/firebase/require-admin";
 import { WorkValidationError } from "@/lib/works/validation";
 
@@ -16,7 +17,10 @@ export function sendApiError(
     return;
   }
 
-  if (error instanceof WorkValidationError) {
+  if (
+    error instanceof WorkValidationError ||
+    error instanceof EnquiryValidationError
+  ) {
     response.status(400).json({ error: error.message });
     return;
   }
