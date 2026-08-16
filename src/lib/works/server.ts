@@ -12,8 +12,10 @@ import {
   MAX_IMAGE_BYTES,
   MAX_VIDEO_BYTES,
   WORKS_COLLECTION,
+  getUploadedMediaFiles,
   isUploadedMedia,
   type UploadedMedia,
+  type UploadedWorkMedia,
   type Work,
   type WorkInput,
 } from "@/types/work";
@@ -45,7 +47,7 @@ export function serializeWork(snapshot: WorkSnapshot): Work {
   } as Work;
 }
 
-export async function verifyUploadedMedia(
+async function verifyUploadedFile(
   media: UploadedMedia,
 ): Promise<UploadedMedia> {
   const file = getFirebaseAdminStorage().bucket().file(media.storagePath);
@@ -83,6 +85,31 @@ export async function verifyUploadedMedia(
   };
 }
 
+export async function verifyUploadedMedia(
+  media: UploadedWorkMedia,
+): Promise<UploadedWorkMedia> {
+  if (media.type !== "image-collection") {
+    return verifyUploadedFile(media);
+  }
+
+  return {
+    ...media,
+    images: await Promise.all(
+      media.images.map(async (image) => {
+        const verifiedImage = await verifyUploadedFile(image);
+
+        if (verifiedImage.type !== "image") {
+          throw new WorkValidationError(
+            "Image collections can contain image files only.",
+          );
+        }
+
+        return verifiedImage;
+      }),
+    ),
+  };
+}
+
 export async function prepareWorkForWrite(input: WorkInput) {
   return {
     ...input,
@@ -113,9 +140,17 @@ export function updateTimestamp() {
   return FieldValue.serverTimestamp();
 }
 
-export async function deleteUploadedMedia(media: UploadedMedia) {
-  await getFirebaseAdminStorage()
-    .bucket()
-    .file(media.storagePath)
-    .delete({ ignoreNotFound: true });
+export async function deleteUploadedMedia(
+  media: UploadedWorkMedia,
+  storagePathsToKeep = new Set<string>(),
+) {
+  const bucket = getFirebaseAdminStorage().bucket();
+
+  await Promise.all(
+    getUploadedMediaFiles(media)
+      .filter((file) => !storagePathsToKeep.has(file.storagePath))
+      .map((file) =>
+        bucket.file(file.storagePath).delete({ ignoreNotFound: true }),
+      ),
+  );
 }

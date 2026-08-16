@@ -3,14 +3,19 @@ import {
   ALLOWED_VIDEO_TYPES,
   MAX_IMAGE_BYTES,
   MAX_VIDEO_BYTES,
+  MAX_WORK_IMAGES,
+  type InstagramMedia,
+  type UploadedImageCollectionMedia,
   type UploadedMedia,
   type WorkInput,
+  type WorkMedia,
   type WorkStatus,
   type YouTubeMedia,
 } from "@/types/work";
 
 const YOUTUBE_ID_PATTERN = /^[A-Za-z0-9_-]{11}$/;
 const WORK_ID_PATTERN = /^[A-Za-z0-9_-]{1,128}$/;
+const INSTAGRAM_MEDIA_PATH_PATTERN = /^\/(p|reel|tv)\/([A-Za-z0-9_-]+)\/?$/;
 
 export class WorkValidationError extends Error {
   constructor(message: string) {
@@ -69,6 +74,45 @@ function parseInstagramUrl(value: unknown) {
   } catch {
     throw new WorkValidationError("Enter a valid Instagram URL.");
   }
+}
+
+export function normalizeInstagramMediaUrl(value: string) {
+  try {
+    const url = new URL(value.trim());
+    const hostname = url.hostname.toLowerCase().replace(/^www\./, "");
+    const pathMatch = url.pathname.match(INSTAGRAM_MEDIA_PATH_PATTERN);
+
+    if (
+      url.protocol !== "https:" ||
+      hostname !== "instagram.com" ||
+      !pathMatch
+    ) {
+      return null;
+    }
+
+    return `https://www.instagram.com/${pathMatch[1]}/${pathMatch[2]}/`;
+  } catch {
+    return null;
+  }
+}
+
+function parseInstagramMedia(
+  media: Record<string, unknown>,
+): InstagramMedia {
+  const urlValue = readString(media.url, "Instagram media", 500);
+  const url = normalizeInstagramMediaUrl(urlValue);
+
+  if (!url) {
+    throw new WorkValidationError(
+      "Enter a valid Instagram post or Reel URL.",
+    );
+  }
+
+  return {
+    source: "instagram",
+    type: "video",
+    url,
+  };
 }
 
 function parseYouTubeMedia(media: Record<string, unknown>): YouTubeMedia {
@@ -153,6 +197,74 @@ function parseUploadedMedia(
   };
 }
 
+function parseUploadedImageCollection(
+  media: Record<string, unknown>,
+  workId: string,
+): UploadedImageCollectionMedia {
+  if (!Array.isArray(media.images)) {
+    throw new WorkValidationError("Choose images for this work.");
+  }
+
+  if (media.images.length < 2 || media.images.length > MAX_WORK_IMAGES) {
+    throw new WorkValidationError(
+      `Choose between 2 and ${MAX_WORK_IMAGES} images for a collection.`,
+    );
+  }
+
+  const images = media.images.map((image) => {
+    if (!isRecord(image)) {
+      throw new WorkValidationError("One of the uploaded images is invalid.");
+    }
+
+    const parsedImage = parseUploadedMedia(image, workId);
+
+    if (parsedImage.type !== "image") {
+      throw new WorkValidationError(
+        "Image collections can contain image files only.",
+      );
+    }
+
+    return parsedImage;
+  });
+
+  const uniqueStoragePaths = new Set(images.map((image) => image.storagePath));
+
+  if (uniqueStoragePaths.size !== images.length) {
+    throw new WorkValidationError("Each collection image must be unique.");
+  }
+
+  return {
+    source: "upload",
+    type: "image-collection",
+    images,
+  };
+}
+
+function parseWorkMedia(
+  media: Record<string, unknown>,
+  workId: string,
+): WorkMedia {
+  if (media.source === "youtube") {
+    return parseYouTubeMedia(media);
+  }
+
+  if (media.source === "instagram") {
+    return parseInstagramMedia(media);
+  }
+
+  if (media.source === "upload" && media.type === "image-collection") {
+    return parseUploadedImageCollection(media, workId);
+  }
+
+  if (media.source === "upload") {
+    return parseUploadedMedia(media, workId);
+  }
+
+  throw new WorkValidationError(
+    "Choose YouTube, Instagram, or uploaded media.",
+  );
+}
+
 export function validateWorkId(value: unknown) {
   if (typeof value !== "string" || !WORK_ID_PATTERN.test(value)) {
     throw new WorkValidationError("Invalid work ID.");
@@ -184,14 +296,7 @@ export function validateWorkInput(value: unknown, workId: string): WorkInput {
     throw new WorkValidationError("Choose media for this work.");
   }
 
-  const media =
-    value.media.source === "youtube"
-      ? parseYouTubeMedia(value.media)
-      : value.media.source === "upload"
-        ? parseUploadedMedia(value.media, workId)
-        : (() => {
-            throw new WorkValidationError("Choose YouTube or an uploaded file.");
-          })();
+  const media = parseWorkMedia(value.media, workId);
 
   return {
     title,

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function HeroSection() {
   return (
-    <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,#fbf6ed_0%,#f2e6d5_100%)] text-[var(--ink)] md:min-h-[41rem]">
+    <section className="relative isolate overflow-hidden bg-[linear-gradient(135deg,#fbf6ed_0%,#f2e6d5_100%)] text-[var(--ink)] md:min-h-[93vh]">
       {/* subtle paper lighting */}
       <div className="pointer-events-none absolute inset-0 -z-30 bg-[radial-gradient(circle_at_15%_18%,rgba(255,255,255,0.58),transparent_30rem)]" />
       {/* DESKTOP FISH BACKGROUND */}
@@ -26,7 +26,7 @@ export default function HeroSection() {
       </div>
 
       {/* CONTENT */}
-      <div className="site-gutter relative z-10 mx-auto max-w-[90rem] pb-4 pt-7 md:flex md:min-h-[41rem] md:items-center md:pb-20 md:pt-12">
+      <div className="site-gutter relative z-10 mx-auto max-w-[90rem] pb-4 pt-7 md:flex md:min-h-[41rem] md:items-center md:pb-20 md:pt-12 md:px-12">
         <div className="w-full max-w-[38rem] md:w-[48%]">
           <p className="text-[0.58rem] font-extrabold uppercase tracking-[0.28em] text-[var(--rust)] md:text-[0.68rem]">
             Storytellers. Dreamers. Creators.
@@ -40,7 +40,7 @@ export default function HeroSection() {
             </span>
           </h1>
 
-          <p className="mt-4 max-w-[20rem] text-[0.72rem] leading-5 text-[var(--muted-strong)] md:mt-7 md:max-w-[34rem] md:text-base md:leading-8">
+          <p className="mt-4 max-w-[20rem] text-[0.72rem] leading-5 text-[var(--muted-strong)] md:mt-7 md:max-w-[34rem] md:text-lg md:leading-8">
             A video production and social media management company rooted in
             culture, driven by creativity.
           </p>

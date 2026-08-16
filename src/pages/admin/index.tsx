@@ -15,6 +15,22 @@ import {
 } from "@/lib/works/admin-api";
 import { formatFileSize, type Work } from "@/types/work";
 
+function getMediaSummary(work: Work) {
+  if (work.media.source === "youtube") {
+    return "YouTube video";
+  }
+
+  if (work.media.source === "instagram") {
+    return "Instagram post / Reel";
+  }
+
+  if (work.media.type === "image-collection") {
+    return `${work.media.images.length} images · swipe gallery`;
+  }
+
+  return `${work.media.type} · ${formatFileSize(work.media.sizeBytes)}`;
+}
+
 export default function AdminPage() {
   const { user, isCheckingSession } = useAdminSession();
   const [works, setWorks] = useState<Work[]>([]);
@@ -274,9 +290,7 @@ export default function AdminPage() {
                         {work.title}
                       </h2>
                       <p className="mt-1 text-xs text-[var(--muted)]">
-                        {work.media.source === "youtube"
-                          ? "YouTube video"
-                          : `${work.media.type} · ${formatFileSize(work.media.sizeBytes)}`}
+                        {getMediaSummary(work)}
                       </p>
 
                       <div className="mt-auto flex flex-wrap gap-2 pt-5">

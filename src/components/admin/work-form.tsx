@@ -16,7 +16,10 @@ import {
   createAdminWork,
   updateAdminWork,
 } from "@/lib/works/admin-api";
-import { extractYouTubeVideoId } from "@/lib/works/validation";
+import {
+  extractYouTubeVideoId,
+  normalizeInstagramMediaUrl,
+} from "@/lib/works/validation";
 import {
   ALLOWED_IMAGE_TYPES,
   ALLOWED_VIDEO_TYPES,
@@ -24,6 +27,7 @@ import {
   isUploadedMedia,
   MAX_IMAGE_BYTES,
   MAX_VIDEO_BYTES,
+  MAX_WORK_IMAGES,
   type UploadedMedia,
   type Work,
   type WorkInput,
@@ -122,12 +126,14 @@ export default function WorkForm({
   const [instagramUrl, setInstagramUrl] = useState(
     existingWork?.instagramUrl ?? "",
   );
-  const [mediaSource, setMediaSource] = useState<"youtube" | "upload">(
-    existingWork?.media.source ?? "youtube",
-  );
+  const [mediaSource, setMediaSource] = useState<
+    "youtube" | "instagram" | "upload"
+  >(existingWork?.media.source ?? "youtube");
   const [uploadType, setUploadType] = useState<"image" | "video">(
     existingWork?.media.source === "upload"
-      ? existingWork.media.type
+      ? existingWork.media.type === "video"
+        ? "video"
+        : "image"
       : "image",
   );
   const [youtubeUrl, setYoutubeUrl] = useState(
@@ -135,19 +141,22 @@ export default function WorkForm({
       ? `https://www.youtube.com/watch?v=${existingWork.media.videoId}`
       : "",
   );
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [instagramMediaUrl, setInstagramMediaUrl] = useState(
+    existingWork?.media.source === "instagram" ? existingWork.media.url : "",
+  );
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [error, setError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  function selectMediaSource(source: "youtube" | "upload") {
+  function selectMediaSource(source: "youtube" | "instagram" | "upload") {
     setMediaSource(source);
     setError("");
   }
 
   function selectUploadType(type: "image" | "video") {
     setUploadType(type);
-    setSelectedFile(null);
+    setSelectedFiles([]);
     setError("");
 
     if (fileInputRef.current) {
@@ -155,36 +164,53 @@ export default function WorkForm({
     }
   }
 
-  function handleFileChange(file: File | null) {
+  function handleFileChange(fileList: FileList | null) {
     setError("");
+    const files = fileList ? Array.from(fileList) : [];
+    setSelectedFiles([]);
 
-    if (!file) {
-      setSelectedFile(null);
+    if (files.length === 0) {
+      return;
+    }
+
+    if (uploadType === "video" && files.length > 1) {
+      setError("Choose one video file.");
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+
+    if (uploadType === "image" && files.length > MAX_WORK_IMAGES) {
+      setError(`Choose no more than ${MAX_WORK_IMAGES} images.`);
+      if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
 
     const allowedTypes =
       uploadType === "image" ? ALLOWED_IMAGE_TYPES : ALLOWED_VIDEO_TYPES;
-    const isExpectedType = allowedTypes.includes(file.type);
-    const maximumSize = uploadType === "image" ? MAX_IMAGE_BYTES : MAX_VIDEO_BYTES;
+    const maximumSize =
+      uploadType === "image" ? MAX_IMAGE_BYTES : MAX_VIDEO_BYTES;
+    const invalidTypeFile = files.find(
+      (file) => !allowedTypes.includes(file.type),
+    );
+    const oversizedFile = files.find((file) => file.size > maximumSize);
 
-    if (!isExpectedType) {
-      setError(`Please select a valid ${uploadType} file.`);
+    if (invalidTypeFile) {
+      setError(`Please select valid ${uploadType} files only.`);
       if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
 
-    if (file.size > maximumSize) {
+    if (oversizedFile) {
       setError(
         uploadType === "image"
-          ? "Images must be 10 MB or smaller."
+          ? `Each image must be 10 MB or smaller. ${oversizedFile.name} is too large.`
           : "Videos must be 100 MB or smaller.",
       );
       if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
 
-    setSelectedFile(file);
+    setSelectedFiles(files);
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -193,11 +219,12 @@ export default function WorkForm({
     setIsSaving(true);
     setUploadProgress(0);
 
-    let newlyUploadedMedia: UploadedMedia | null = null;
+    const newlyUploadedFiles: UploadedMedia[] = [];
 
     try {
       const resolvedWorkId = workId ?? crypto.randomUUID();
       let media: WorkInput["media"];
+      let primaryInstagramUrl: string | null = null;
 
       if (mediaSource === "youtube") {
         const videoId = extractYouTubeVideoId(youtubeUrl);
@@ -207,17 +234,56 @@ export default function WorkForm({
         }
 
         media = { source: "youtube", type: "video", videoId };
-      } else if (selectedFile) {
-        newlyUploadedMedia = await uploadMedia(
-          resolvedWorkId,
-          selectedFile,
-          setUploadProgress,
-        );
-        media = newlyUploadedMedia;
+      } else if (mediaSource === "instagram") {
+        primaryInstagramUrl = normalizeInstagramMediaUrl(instagramMediaUrl);
+
+        if (!primaryInstagramUrl) {
+          throw new Error("Enter a valid Instagram post or Reel URL.");
+        }
+
+        media = {
+          source: "instagram",
+          type: "video",
+          url: primaryInstagramUrl,
+        };
+      } else if (selectedFiles.length > 0) {
+        for (const [index, file] of selectedFiles.entries()) {
+          const uploadedFile = await uploadMedia(
+            resolvedWorkId,
+            file,
+            (fileProgress) => {
+              const totalProgress =
+                ((index + fileProgress / 100) / selectedFiles.length) * 100;
+              setUploadProgress(Math.round(totalProgress));
+            },
+          );
+
+          newlyUploadedFiles.push(uploadedFile);
+        }
+
+        if (uploadType === "image" && newlyUploadedFiles.length > 1) {
+          const images = newlyUploadedFiles.filter(
+            (file) => file.type === "image",
+          );
+
+          if (images.length !== newlyUploadedFiles.length) {
+            throw new Error("Image collections can contain image files only.");
+          }
+
+          media = {
+            source: "upload",
+            type: "image-collection",
+            images,
+          };
+        } else {
+          media = newlyUploadedFiles[0];
+        }
       } else if (
         existingWork &&
         isUploadedMedia(existingWork.media) &&
-        existingWork.media.type === uploadType
+        (existingWork.media.type === uploadType ||
+          (existingWork.media.type === "image-collection" &&
+            uploadType === "image"))
       ) {
         media = existingWork.media;
       } else {
@@ -230,7 +296,7 @@ export default function WorkForm({
         label,
         status,
         sortOrder: Number(sortOrder),
-        instagramUrl: instagramUrl.trim() || null,
+        instagramUrl: instagramUrl.trim() || primaryInstagramUrl,
         media,
       };
 
@@ -242,13 +308,11 @@ export default function WorkForm({
 
       await router.push("/admin");
     } catch (saveError) {
-      if (newlyUploadedMedia) {
-        try {
-          await deleteObject(ref(firebaseStorage, newlyUploadedMedia.storagePath));
-        } catch {
-          // The server may already have accepted or removed the object.
-        }
-      }
+      await Promise.allSettled(
+        newlyUploadedFiles.map((file) =>
+          deleteObject(ref(firebaseStorage, file.storagePath)),
+        ),
+      );
 
       setError(getUploadError(saveError));
       setIsSaving(false);
@@ -256,7 +320,8 @@ export default function WorkForm({
   }
 
   const existingPreview = existingWork?.media;
-  const maximumSize = uploadType === "image" ? MAX_IMAGE_BYTES : MAX_VIDEO_BYTES;
+  const maximumSize =
+    uploadType === "image" ? MAX_IMAGE_BYTES : MAX_VIDEO_BYTES;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-7">
@@ -343,7 +408,7 @@ export default function WorkForm({
 
         <div>
           <label className="mb-2 block text-sm font-bold" htmlFor="instagram-url">
-            Instagram link <span className="font-normal text-[var(--muted)]">(optional)</span>
+            Related Instagram link <span className="font-normal text-[var(--muted)]">(optional)</span>
           </label>
           <input
             id="instagram-url"
@@ -363,8 +428,8 @@ export default function WorkForm({
           Choose one media source for this work.
         </p>
 
-        <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {(["youtube", "upload"] as const).map((source) => (
+        <div className="mt-5 grid gap-3 md:grid-cols-3">
+          {(["youtube", "instagram", "upload"] as const).map((source) => (
             <button
               key={source}
               type="button"
@@ -376,11 +441,17 @@ export default function WorkForm({
               }`}
             >
               <span className="block font-bold">
-                {source === "youtube" ? "YouTube video" : "Upload media"}
+                {source === "youtube"
+                  ? "YouTube video"
+                  : source === "instagram"
+                    ? "Instagram post / Reel"
+                    : "Upload media"}
               </span>
               <span className="mt-1 block text-sm text-[var(--muted)]">
                 {source === "youtube"
                   ? "Paste a public YouTube URL"
+                  : source === "instagram"
+                    ? "Paste a public Instagram URL"
                   : "Choose an image or video file"}
               </span>
             </button>
@@ -401,6 +472,29 @@ export default function WorkForm({
               className="admin-input"
               placeholder="https://www.youtube.com/watch?v=..."
             />
+          </div>
+        ) : mediaSource === "instagram" ? (
+          <div className="mt-6">
+            <label
+              className="mb-2 block text-sm font-bold"
+              htmlFor="instagram-media-url"
+            >
+              Instagram post or Reel URL
+            </label>
+            <input
+              id="instagram-media-url"
+              type="url"
+              value={instagramMediaUrl}
+              onChange={(event) => setInstagramMediaUrl(event.target.value)}
+              required
+              maxLength={500}
+              className="admin-input"
+              placeholder="https://www.instagram.com/reel/..."
+            />
+            <p className="mt-2 text-xs leading-5 text-[var(--muted)]">
+              Instagram can embed content only when the account is public and
+              embedding is enabled for the post.
+            </p>
           </div>
         ) : (
           <div className="mt-6">
@@ -426,14 +520,28 @@ export default function WorkForm({
               className="mt-5 flex cursor-pointer flex-col items-center justify-center border-2 border-dashed border-[var(--border-strong)] bg-white px-5 py-10 text-center transition hover:border-[var(--accent)]"
             >
               <span className="font-bold">
-                {selectedFile ? selectedFile.name : `Choose ${uploadType}`}
+                {selectedFiles.length > 0
+                  ? uploadType === "image"
+                    ? `${selectedFiles.length} image${selectedFiles.length === 1 ? "" : "s"} selected`
+                    : (selectedFiles[0]?.name ?? "1 video selected")
+                  : uploadType === "image"
+                    ? `Choose up to ${MAX_WORK_IMAGES} images`
+                    : "Choose video"}
               </span>
               <span className="mt-2 text-sm text-[var(--muted)]">
-                Maximum {formatFileSize(maximumSize)}
+                {uploadType === "image"
+                  ? `Maximum ${formatFileSize(maximumSize)} per image`
+                  : `Maximum ${formatFileSize(maximumSize)}`}
               </span>
-              {selectedFile ? (
-                <span className="mt-1 text-xs text-[var(--muted)]">
-                  {formatFileSize(selectedFile.size)} selected
+              {selectedFiles.length > 0 ? (
+                <span className="mt-2 max-w-full break-words text-xs leading-5 text-[var(--muted)]">
+                  {selectedFiles
+                    .slice(0, 3)
+                    .map((file) => file.name)
+                    .join(" · ")}
+                  {selectedFiles.length > 3
+                    ? ` · +${selectedFiles.length - 3} more`
+                    : ""}
                 </span>
               ) : null}
             </label>
@@ -441,21 +549,30 @@ export default function WorkForm({
               ref={fileInputRef}
               id="media-file"
               type="file"
+              multiple={uploadType === "image"}
               accept={
                 uploadType === "image"
                   ? ALLOWED_IMAGE_TYPES.join(",")
                   : ALLOWED_VIDEO_TYPES.join(",")
               }
-              onChange={(event) => handleFileChange(event.target.files?.[0] ?? null)}
+              onChange={(event) => handleFileChange(event.target.files)}
               className="sr-only"
             />
 
-            {!selectedFile && existingPreview?.source === "upload" && existingPreview.type === uploadType ? (
+            {selectedFiles.length === 0 &&
+            existingPreview?.source === "upload" &&
+            (existingPreview.type === uploadType ||
+              (existingPreview.type === "image-collection" &&
+                uploadType === "image")) ? (
               <div className="mt-4 max-w-sm">
                 <p className="mb-2 text-xs font-bold tracking-wider text-[var(--muted)] uppercase">
-                  Current file—choose a new file only to replace it
+                  Current media—choose new files only to replace it
                 </p>
-                <WorkPreview media={existingPreview} title={title || "Current work"} compact />
+                <WorkPreview
+                  media={existingPreview}
+                  title={title || "Current work"}
+                  compact
+                />
               </div>
             ) : null}
           </div>

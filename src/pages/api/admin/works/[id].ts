@@ -15,20 +15,27 @@ import {
   validateWorkInput,
   WorkValidationError,
 } from "@/lib/works/validation";
-import { isUploadedMedia, type Work } from "@/types/work";
+import {
+  getUploadedMediaFiles,
+  isUploadedMedia,
+  type Work,
+} from "@/types/work";
 
 type WorkResponse =
   | { work: Work }
   | { deleted: true }
   | { error: string };
 
-async function removeFileWithoutFailingRequest(work: Work) {
+async function removeFileWithoutFailingRequest(
+  work: Work,
+  storagePathsToKeep = new Set<string>(),
+) {
   if (!isUploadedMedia(work.media)) {
     return;
   }
 
   try {
-    await deleteUploadedMedia(work.media);
+    await deleteUploadedMedia(work.media, storagePathsToKeep);
   } catch (error) {
     console.error("Could not remove media from Firebase Storage", error);
   }
@@ -84,12 +91,19 @@ export default async function handler(
       updatedAt: updateTimestamp(),
     });
 
-    if (
-      isUploadedMedia(existingWork.media) &&
-      (!isUploadedMedia(preparedWork.media) ||
-        existingWork.media.storagePath !== preparedWork.media.storagePath)
-    ) {
-      await removeFileWithoutFailingRequest(existingWork);
+    if (isUploadedMedia(existingWork.media)) {
+      const retainedStoragePaths = isUploadedMedia(preparedWork.media)
+        ? new Set(
+            getUploadedMediaFiles(preparedWork.media).map(
+              (file) => file.storagePath,
+            ),
+          )
+        : new Set<string>();
+
+      await removeFileWithoutFailingRequest(
+        existingWork,
+        retainedStoragePaths,
+      );
     }
 
     response.status(200).json({ work: serializeWork(await document.get()) });

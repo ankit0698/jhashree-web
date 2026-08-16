@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import WorkImageStack from "@/components/work-image-stack";
 import { getPublishedWorks } from "@/lib/works/public";
 import type { Work, WorkMedia } from "@/types/work";
 
@@ -45,6 +46,18 @@ function YouTubePreview({
 
       <PlayButton />
     </button>
+  );
+}
+
+function InstagramPreview({ url, title }: { url: string; title: string }) {
+  return (
+    <iframe
+      src={`${url}embed/`}
+      title={`${title} on Instagram`}
+      className="absolute inset-0 h-full w-full bg-white"
+      loading="lazy"
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+    />
   );
 }
 
@@ -99,6 +112,14 @@ function WorkMediaPreview({
     return <YouTubePreview videoId={media.videoId} title={title} />;
   }
 
+  if (media.source === "instagram") {
+    return <InstagramPreview url={media.url} title={title} />;
+  }
+
+  if (media.type === "image-collection") {
+    return <WorkImageStack images={media.images} title={title} />;
+  }
+
   if (media.type === "image") {
     return (
       <Image
@@ -125,6 +146,9 @@ function WorkMediaPreview({
 }
 
 function WorkCard({ work }: { work: Work }) {
+  const instagramUrl =
+    work.media.source === "instagram" ? work.media.url : work.instagramUrl;
+
   return (
     <article className="group min-w-0">
       {/* MEDIA */}
@@ -142,7 +166,13 @@ function WorkCard({ work }: { work: Work }) {
           group-hover:border-white/[0.22]
         "
       >
-        <div className="relative aspect-[16/9] overflow-hidden">
+        <div
+          className={`relative overflow-hidden ${
+            work.media.source === "instagram"
+              ? "aspect-[4/5]"
+              : "aspect-[16/9]"
+          }`}
+        >
           <WorkMediaPreview media={work.media} title={work.title} />
 
           {/* SUBTLE CINEMATIC GRADIENT */}
@@ -165,6 +195,7 @@ function WorkCard({ work }: { work: Work }) {
                 pointer-events-none
                 absolute
                 left-4 top-4
+                z-40
                 rounded-full
                 border border-white/15
                 bg-black/45
@@ -221,9 +252,9 @@ function WorkCard({ work }: { work: Work }) {
           </div>
 
           {/* INSTAGRAM LINK */}
-          {work.instagramUrl ? (
+          {instagramUrl ? (
             <a
-              href={work.instagramUrl}
+              href={instagramUrl}
               target="_blank"
               rel="noreferrer"
               aria-label={`View ${work.title} on Instagram`}
@@ -234,7 +265,7 @@ function WorkCard({ work }: { work: Work }) {
                 place-items-center
                 rounded-full
                 border border-white/15
-                text-sm
+                cursor-pointer
                 text-[var(--accent-soft)]
                 transition
                 duration-300
@@ -243,7 +274,24 @@ function WorkCard({ work }: { work: Work }) {
                 hover:text-black
               "
             >
-              ↗
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              >
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle
+                  cx="17.5"
+                  cy="6.5"
+                  r="1"
+                  fill="currentColor"
+                  stroke="none"
+                />
+              </svg>
             </a>
           ) : null}
         </div>
