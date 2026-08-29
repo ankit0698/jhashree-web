@@ -59,7 +59,17 @@ export default function AdminShell({
             </div>
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/admin/survey"
+              className={`admin-button ${
+                router.pathname.startsWith("/admin/survey")
+                  ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--ink)]"
+                  : "border-white/15 bg-white/[0.05] text-[var(--hero-muted)] hover:border-[var(--accent)] hover:text-white"
+              }`}
+            >
+              View survey
+            </Link>
             <Link
               href="/"
               className="admin-button hidden border-white/15 bg-white/[0.05] text-[var(--hero-muted)] hover:border-[var(--accent)] hover:text-white md:inline-flex"

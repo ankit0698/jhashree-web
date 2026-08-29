@@ -2,6 +2,7 @@ import type { NextApiResponse } from "next";
 
 import { EnquiryValidationError } from "@/lib/enquiries/validation";
 import { AdminAuthenticationError } from "@/lib/firebase/require-admin";
+import { SurveyValidationError } from "@/lib/survey/validation";
 import { WorkValidationError } from "@/lib/works/validation";
 
 type ApiErrorResponse = {
@@ -19,7 +20,8 @@ export function sendApiError(
 
   if (
     error instanceof WorkValidationError ||
-    error instanceof EnquiryValidationError
+    error instanceof EnquiryValidationError ||
+    error instanceof SurveyValidationError
   ) {
     response.status(400).json({ error: error.message });
     return;
@@ -29,8 +31,11 @@ export function sendApiError(
     error instanceof Error &&
     error.message.startsWith("Missing required environment variable:")
   ) {
+    const isSupabase = error.message.includes("SUPABASE");
     response.status(500).json({
-      error: "Firebase Admin is not configured on the server.",
+      error: isSupabase
+        ? "Supabase is not configured on the server."
+        : "Firebase Admin is not configured on the server.",
     });
     return;
   }
