@@ -61,14 +61,16 @@ export default function AdminShell({
 
           <div className="flex flex-wrap items-center gap-3">
             <Link
-              href="/admin/survey"
+              href="/admin/surveys-and-registrations"
               className={`admin-button ${
-                router.pathname.startsWith("/admin/survey")
+                router.pathname.startsWith("/admin/survey") ||
+                router.pathname.startsWith("/admin/registrations") ||
+                router.pathname.startsWith("/admin/surveys-and-registrations")
                   ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--ink)]"
                   : "border-white/15 bg-white/[0.05] text-[var(--hero-muted)] hover:border-[var(--accent)] hover:text-white"
               }`}
             >
-              View survey
+              Surveys and registrations
             </Link>
             <Link
               href="/"

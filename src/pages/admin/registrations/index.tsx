@@ -3,16 +3,16 @@ import Link from "next/link";
 import type { ReactElement } from "react";
 
 import AdminShell from "@/components/admin/admin-shell";
-import SurveyResponsesPanel from "@/components/admin/survey-responses-panel";
+import RegistrationsPanel from "@/components/admin/registrations-panel";
 import { useAdminSession } from "@/hooks/use-admin-session";
 
-export default function AdminSurveyPage() {
+export default function AdminRegistrationsPage() {
   const { user, isCheckingSession } = useAdminSession();
 
   return (
     <>
       <Head>
-        <title>Survey Responses | Jhashree Productions</title>
+        <title>Registrations | Jhashree Productions</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
@@ -26,13 +26,13 @@ export default function AdminSurveyPage() {
             Back to surveys and registrations
           </Link>
 
-          <SurveyResponsesPanel user={user} />
+          <RegistrationsPanel user={user} />
         </div>
       </AdminShell>
     </>
   );
 }
 
-AdminSurveyPage.getLayout = function getLayout(page: ReactElement) {
+AdminRegistrationsPage.getLayout = function getLayout(page: ReactElement) {
   return page;
 };
