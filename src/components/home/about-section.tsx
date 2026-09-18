@@ -36,7 +36,19 @@ export default function AboutSection() {
       id="about"
       className="relative scroll-mt-24 overflow-hidden bg-[var(--paper-light)] py-18 md:py-24"
     >
-      <div className="site-gutter mx-auto grid max-w-[90rem] gap-9 md:grid-cols-[0.72fr_1.28fr_0.5fr] md:items-stretch md:gap-12">
+      {/* Mithila whisper accent */}
+      <div className="pointer-events-none absolute -left-10 bottom-0 hidden h-56 w-56 opacity-[0.1] md:block">
+        <Image
+          src="/assets/madhubani-paintings/bird.webp"
+          alt=""
+          aria-hidden="true"
+          fill
+          sizes="14rem"
+          className="select-none object-contain"
+        />
+      </div>
+
+      <div className="site-gutter relative z-10 mx-auto grid max-w-[90rem] gap-9 md:grid-cols-[0.72fr_1.28fr_0.5fr] md:items-stretch md:gap-12">
         {/* LEFT IMAGE */}
         <div className="relative mx-auto w-full max-w-[26rem] md:mx-0 md:h-full">
           <div className="relative aspect-[3/4] overflow-hidden md:h-full md:aspect-auto">

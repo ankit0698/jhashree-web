@@ -85,7 +85,7 @@ export default function AdminLoginPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
-      <main className="relative grid min-h-screen place-items-center overflow-hidden bg-[var(--ink)] px-5 py-10">
+      <main className="relative grid min-h-screen place-items-center overflow-hidden bg-[var(--canvas)] px-5 py-10">
         <MithilaBand className="absolute inset-x-0 top-0 h-3 bg-[var(--rust)] text-[var(--rust)]" />
         <section className="relative grid w-full max-w-4xl overflow-hidden border border-white/15 bg-[var(--paper-light)] shadow-[var(--shadow-deep)] md:grid-cols-[0.9fr_1.1fr]">
           <div className="relative hidden min-h-[40rem] overflow-hidden bg-[var(--rust)] p-10 text-[var(--hero-foreground)] md:flex md:flex-col md:justify-between">

@@ -1,4 +1,4 @@
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Manrope, Space_Grotesk } from "next/font/google";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import type { ReactElement, ReactNode } from "react";
@@ -19,9 +19,9 @@ const manrope = Manrope({
   variable: "--font-manrope",
 });
 
-const cormorantGaramond = Cormorant_Garamond({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-space-grotesk",
   weight: ["400", "500", "600", "700"],
 });
 
@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     Component.getLayout ?? ((page: ReactElement) => <Layout>{page}</Layout>);
 
   return (
-    <div className={`${manrope.variable} ${cormorantGaramond.variable}`}>
+    <div className={`${manrope.variable} ${spaceGrotesk.variable}`}>
       {getLayout(<Component {...pageProps} />)}
     </div>
   );

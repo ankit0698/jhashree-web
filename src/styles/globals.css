@@ -1,40 +1,53 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf4ea;
-  --foreground: #24221f;
-  --foreground-contrast: #11110f;
-  --muted: #6c665e;
-  --muted-strong: #4e4943;
-  --surface: #faf4ea;
-  --surface-soft: #eee3d4;
-  --accent: #c38a3a;
-  --accent-soft: #ddad6c;
-  --accent-deep: #9d341f;
-  --accent-green: #555b39;
-  --hero-background: #11110f;
-  --hero-foreground: #faf4ea;
-  --hero-muted: #c8c0b5;
-  --border: rgba(33, 29, 24, 0.11);
-  --border-strong: rgba(33, 29, 24, 0.2);
-  --shadow-soft: 0 18px 54px rgba(34, 25, 18, 0.08);
-  --shadow-deep: 0 30px 80px rgba(17, 14, 11, 0.18);
-  --rust: #b84a2f;
-  --terracotta: #b84a2f;
+  /* Darkness B — near-black base, lifted charcoal surfaces */
+  --background: #0c0c0b;
+  --canvas: #0c0c0b;
+  --section: #121211;
+  --foreground: #f4f0e8;
+  --foreground-contrast: #ffffff;
+  --muted: #a8a29a;
+  --muted-strong: #c4beb4;
+  --surface: #161614;
+  --surface-soft: #1e1d1a;
+  --accent: #c9a06a;
+  --accent-soft: #ddb988;
+  --accent-deep: #c45a3a;
+  --accent-green: #6b7350;
+  --hero-background: #050504;
+  --hero-foreground: #f4f0e8;
+  --hero-muted: #a8a29a;
+  --hero-overlay: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.42) 0%,
+    rgba(0, 0, 0, 0.62) 100%
+  );
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --shadow-soft: 0 18px 54px rgba(0, 0, 0, 0.35);
+  --shadow-deep: 0 30px 80px rgba(0, 0, 0, 0.55);
+  --rust: #c45a3a;
+  --terracotta: #c45a3a;
   --orange: #d26d32;
-  --peacock: #171714;
-  --indigo: #171714;
-  --paper: #f4ebdd;
-  --paper-light: #faf4ea;
-  --ink: #11110f;
+  --peacock: #121211;
+  --indigo: #121211;
+  /* Legacy aliases → charcoal (avoid cream) */
+  --paper: #181714;
+  --paper-light: #161614;
+  /* Primary text (was near-black on cream) */
+  --ink: #f4f0e8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-manrope);
-  --font-serif: var(--font-cormorant);
+  /* Display: Space Grotesk (mapped so existing font-serif classes stay geometric) */
+  --font-serif: var(--font-space-grotesk);
+  --font-display: var(--font-space-grotesk);
 }
+
 @layer base {
   html,
   body {
@@ -73,12 +86,14 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 15% 6%, rgba(255, 253, 248, 0.76), transparent 30rem),
+    radial-gradient(circle at 18% 8%, rgba(196, 90, 58, 0.08), transparent 28rem),
+    radial-gradient(circle at 88% 12%, rgba(201, 160, 106, 0.05), transparent 24rem),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-manrope), sans-serif;
 }
 
+/* Film grain for dark canvas */
 body::before {
   content: "";
   pointer-events: none;
@@ -86,12 +101,12 @@ body::before {
   inset: 0;
   z-index: 50;
   background-image:
-    radial-gradient(rgba(72, 42, 20, 0.12) 0.55px, transparent 0.65px),
-    radial-gradient(rgba(255, 255, 255, 0.42) 0.55px, transparent 0.65px);
+    radial-gradient(rgba(255, 255, 255, 0.22) 0.55px, transparent 0.65px),
+    radial-gradient(rgba(0, 0, 0, 0.35) 0.55px, transparent 0.65px);
   background-position: 0 0, 3px 3px;
-  background-size: 6px 6px;
-  mix-blend-mode: multiply;
-  opacity: 0.12;
+  background-size: 5px 5px;
+  mix-blend-mode: overlay;
+  opacity: 0.18;
 }
 
 body::after {
@@ -100,12 +115,12 @@ body::after {
   position: fixed;
   inset: 0;
   z-index: 50;
-  opacity: 0.025;
+  opacity: 0.04;
   background-image: repeating-linear-gradient(
     112deg,
     transparent 0,
     transparent 34px,
-    rgba(89, 50, 25, 0.13) 35px,
+    rgba(255, 255, 255, 0.08) 35px,
     transparent 36px
   );
 }
@@ -122,9 +137,10 @@ body::after {
   }
 
   .site-button {
-    @apply inline-flex min-h-12 items-center justify-center gap-3 border px-6 py-3 text-xs font-semibold transition duration-300;
+    @apply inline-flex min-h-12 items-center justify-center gap-3 border px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] transition duration-300;
     @apply focus-visible:outline-2 focus-visible:outline-offset-4;
-    border-radius: 0.55rem;
+    border-radius: 0.35rem;
+    outline-color: var(--accent);
   }
 
   .site-button:hover {
@@ -135,24 +151,25 @@ body::after {
     border-color: var(--rust);
     background: linear-gradient(135deg, var(--rust), #9e351f);
     color: #fffaf3;
-    box-shadow: 0 12px 28px rgba(113, 39, 24, 0.16);
+    box-shadow: 0 12px 28px rgba(196, 90, 58, 0.28);
   }
 
   .site-button-rust:hover {
-    border-color: #8e2e1c;
-    background: linear-gradient(135deg, #c05234, #a43620);
+    border-color: #e06a48;
+    background: linear-gradient(135deg, #d46645, #a43620);
   }
 
   .site-button-ink {
-    border-color: var(--ink);
-    background: var(--ink);
-    color: var(--hero-foreground);
-    box-shadow: 0 14px 32px rgba(29, 16, 10, 0.15);
+    border-color: rgba(255, 255, 255, 0.18);
+    background: var(--canvas);
+    color: var(--ink);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
   }
 
   .site-button-ink:hover {
     border-color: var(--rust);
     background: var(--rust);
+    color: #fffaf3;
   }
 
   .site-button-outline-light {
@@ -169,9 +186,7 @@ body::after {
 
   .paper-panel {
     border: 1px solid var(--border-strong);
-    background:
-      linear-gradient(rgba(255, 249, 236, 0.95), rgba(247, 236, 215, 0.94)),
-      var(--surface);
+    background: var(--surface);
     box-shadow: var(--shadow-soft);
     border-radius: 0.8rem;
   }
@@ -180,16 +195,28 @@ body::after {
     position: relative;
     border: 1px solid var(--border-strong);
     box-shadow:
-      inset 0 0 0 5px rgba(251, 248, 241, 0.72),
-      inset 0 0 0 6px rgba(130, 93, 47, 0.1),
+      inset 0 0 0 5px rgba(255, 255, 255, 0.04),
+      inset 0 0 0 6px rgba(196, 90, 58, 0.12),
       var(--shadow-soft);
   }
 
   .motif-strip {
-    background-color: var(--accent);
+    background-color: var(--rust);
     background-image:
-      linear-gradient(45deg, transparent 42%, rgba(72, 35, 16, 0.18) 43%, rgba(72, 35, 16, 0.18) 48%, transparent 49%),
-      linear-gradient(-45deg, transparent 42%, rgba(72, 35, 16, 0.18) 43%, rgba(72, 35, 16, 0.18) 48%, transparent 49%);
+      linear-gradient(
+        45deg,
+        transparent 42%,
+        rgba(0, 0, 0, 0.18) 43%,
+        rgba(0, 0, 0, 0.18) 48%,
+        transparent 49%
+      ),
+      linear-gradient(
+        -45deg,
+        transparent 42%,
+        rgba(0, 0, 0, 0.18) 43%,
+        rgba(0, 0, 0, 0.18) 48%,
+        transparent 49%
+      );
     background-size: 20px 20px;
   }
 
@@ -197,13 +224,13 @@ body::after {
     position: relative;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    background: var(--ink);
+    background: var(--canvas);
     border-radius: 0.7rem;
-    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.24);
+    box-shadow: 0 22px 60px rgba(0, 0, 0, 0.4);
   }
 
   .admin-button {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-bold transition duration-200;
+    @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-bold transition duration-200;
     @apply focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
     border-color: transparent;
     line-height: 1;
@@ -214,33 +241,33 @@ body::after {
   }
 
   .admin-button-primary {
-    background: var(--foreground-contrast);
-    color: #fffaf2;
-    box-shadow: 0 12px 28px rgba(49, 29, 16, 0.18);
+    background: var(--rust);
+    color: #fffaf3;
+    box-shadow: 0 12px 28px rgba(196, 90, 58, 0.28);
   }
 
   .admin-button-primary:hover {
     background: var(--accent-deep);
-    box-shadow: 0 14px 30px rgba(155, 90, 27, 0.24);
+    box-shadow: 0 14px 30px rgba(196, 90, 58, 0.36);
   }
 
   .admin-button-primary:focus-visible,
   .admin-button-secondary:focus-visible,
   .admin-button-ghost:focus-visible {
-    outline-color: var(--accent-deep);
+    outline-color: var(--accent);
   }
 
   .admin-button-secondary {
     border-color: var(--border-strong);
-    background: rgba(255, 255, 255, 0.84);
+    background: var(--surface-soft);
     color: var(--foreground);
-    box-shadow: 0 5px 16px rgba(84, 52, 16, 0.06);
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   }
 
   .admin-button-secondary:hover {
     border-color: var(--accent);
-    background: white;
-    color: var(--accent-deep);
+    background: var(--surface);
+    color: var(--accent-soft);
   }
 
   .admin-button-ghost {
@@ -249,41 +276,58 @@ body::after {
   }
 
   .admin-button-ghost:hover {
-    background: rgba(155, 90, 27, 0.07);
-    color: var(--accent-deep);
+    background: rgba(196, 90, 58, 0.12);
+    color: var(--accent-soft);
   }
 
   .admin-button-danger {
-    border-color: rgba(185, 28, 28, 0.16);
-    background: rgba(254, 242, 242, 0.8);
-    color: #b91c1c;
+    border-color: rgba(248, 113, 113, 0.28);
+    background: rgba(127, 29, 29, 0.35);
+    color: #fecaca;
   }
 
   .admin-button-danger:hover {
-    border-color: rgba(185, 28, 28, 0.28);
-    background: #fee2e2;
+    border-color: rgba(248, 113, 113, 0.45);
+    background: rgba(153, 27, 27, 0.5);
   }
 
   .admin-button-danger:focus-visible {
-    outline-color: #b91c1c;
+    outline-color: #f87171;
   }
 
   .admin-button-sm {
-    @apply min-h-9 rounded-lg px-3 py-2 text-xs;
+    @apply min-h-9 rounded-md px-3 py-2 text-xs;
+  }
+
+  .site-input {
+    @apply mt-1.5 w-full rounded-lg border px-4 py-2.5 text-sm outline-none transition;
+    border-color: var(--border);
+    background: var(--surface-soft);
+    color: var(--ink);
+  }
+
+  .site-input::placeholder {
+    color: color-mix(in srgb, var(--muted) 55%, transparent);
+  }
+
+  .site-input:focus {
+    border-color: var(--rust);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--rust) 18%, transparent);
   }
 
   .admin-input {
-    @apply w-full rounded-xl border bg-white px-4 py-3 text-sm outline-none transition;
+    @apply w-full rounded-lg border px-4 py-3 text-sm outline-none transition;
     border-color: var(--border-strong);
+    background: var(--surface-soft);
     color: var(--foreground-contrast);
   }
 
   .admin-input::placeholder {
-    color: color-mix(in srgb, var(--muted) 55%, transparent);
+    color: color-mix(in srgb, var(--muted) 70%, transparent);
   }
 
   .admin-input:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
   }
 }

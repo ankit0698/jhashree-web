@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function SurveyHeader() {
   return (
-    <header className="sticky top-0 z-[60] border-b border-black/[0.06] bg-[var(--paper-light)]/95 text-[var(--ink)] shadow-[0_5px_20px_rgba(44,30,18,0.06)] backdrop-blur-xl">
+    <header className="sticky top-0 z-[60] border-b border-white/[0.08] bg-[var(--paper-light)]/95 text-[var(--ink)] shadow-[0_5px_20px_rgba(0,0,0,0.35)] backdrop-blur-xl">
       <div className="site-gutter mx-auto flex min-h-[5.25rem] max-w-[90rem] items-center justify-between gap-6">
         <Link
           href="/"

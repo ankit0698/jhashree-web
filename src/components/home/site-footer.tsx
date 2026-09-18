@@ -22,7 +22,7 @@ function InstagramIcon() {
 
 export default function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/[0.06] bg-[var(--ink)] text-[var(--hero-foreground)]">
+    <footer className="relative overflow-hidden border-t border-white/[0.06] bg-[var(--canvas)] text-[var(--hero-foreground)]">
       <Image
         src="/assets/madhubani-paintings/fish-new.webp"
         alt=""
@@ -32,7 +32,7 @@ export default function SiteFooter() {
         sizes="(max-width: 768px) 46rem, 58rem"
         className="pointer-events-none absolute -bottom-1 -right-36 h-auto w-[46rem] opacity-30 md:right-0 md:w-[58rem] md:opacity-40"
       />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--ink)_0%,var(--ink)_36%,rgba(17,17,15,0.78)_64%,rgba(17,17,15,0.28)_100%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--canvas)_0%,var(--canvas)_36%,rgba(12,12,11,0.78)_64%,rgba(12,12,11,0.28)_100%)]" />
 
       <div className="site-gutter relative z-10 mx-auto max-w-[90rem] py-12 md:py-14">
         <div className="grid gap-10 md:grid-cols-[1.3fr_0.7fr] md:items-center">
@@ -89,10 +89,12 @@ export default function SiteFooter() {
                 </a>
               ))}
               <a
-                href="mailto:jhashri.productions@gmail.com"
+                href="https://www.instagram.com/jhashree.vibe.vision/"
+                target="_blank"
+                rel="noreferrer"
                 className="text-[14px] text-[var(--hero-muted)] transition hover:text-white"
               >
-                jhashri.productions@gmail.com
+                jhashree.vibe.vision
               </a>
             </div>
           </div>

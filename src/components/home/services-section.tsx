@@ -184,7 +184,7 @@ export default function ServicesSection() {
             <div className="mt-7 flex gap-3">
               {/* INSTAGRAM */}
               <a
-                href="https://www.instagram.com/jhashree_/profilecard/?igsh=MXRkZ2xvNjRiOGhiYg%3D%3D"
+                href="https://www.instagram.com/jhashree.vibe.vision/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram"

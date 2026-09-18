@@ -66,7 +66,7 @@ export default function SurveyPage() {
               </p>
             </div>
 
-            <figure className="mb-8 overflow-hidden rounded-[1.25rem] border border-black/[0.08] bg-[var(--ink)] shadow-[0_22px_60px_rgba(34,25,18,0.12)] md:mb-10">
+            <figure className="mb-8 overflow-hidden rounded-[1.25rem] border border-black/[0.08] bg-[var(--canvas)] shadow-[0_22px_60px_rgba(34,25,18,0.12)] md:mb-10">
               <Image
                 src="/assets/Roots-and-Reels.png"
                 alt="Roots & Reels Season 2 — Creator × Brand Connect in Madhubani, Bihar. For creators, brands, artists, and audiences."
@@ -76,7 +76,7 @@ export default function SurveyPage() {
                 sizes="(max-width: 768px) 100vw, 52rem"
                 className="h-auto w-full object-cover object-top"
               />
-              <figcaption className="border-t border-white/[0.08] bg-[var(--ink)] px-4 py-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--hero-muted)] md:px-6">
+              <figcaption className="border-t border-white/[0.08] bg-[var(--canvas)] px-4 py-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--hero-muted)] md:px-6">
                 Creator × Brand Connect · Where local talent meets local
                 business
               </figcaption>
