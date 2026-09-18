@@ -23,11 +23,11 @@ export default function AdminSurveysAndRegistrationsPage() {
           </Link>
 
           <section className="mt-6">
-            <div className="relative overflow-hidden border border-[var(--border)] bg-[linear-gradient(135deg,rgba(255,250,242,0.98),rgba(242,228,204,0.88))] p-6 shadow-[var(--shadow-soft)] md:p-8">
-              <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent-deep)] uppercase">
+            <div className="relative overflow-hidden border border-[var(--border)] bg-[linear-gradient(135deg,var(--surface)_0%,var(--surface-soft)_100%)] p-6 shadow-[var(--shadow-soft)] md:p-8">
+              <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent)] uppercase">
                 Roots &amp; Reels Season 2
               </p>
-              <h1 className="mt-2 font-serif text-4xl font-semibold leading-none text-[var(--foreground-contrast)] md:text-5xl">
+              <h1 className="mt-2 font-serif text-4xl font-semibold leading-none text-[var(--ink)] md:text-5xl">
                 Surveys and registrations
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--muted)]">
@@ -43,7 +43,7 @@ export default function AdminSurveysAndRegistrationsPage() {
                 <p className="text-[0.58rem] font-bold uppercase tracking-[0.2em] text-[var(--rust)]">
                   Creator applications
                 </p>
-                <h2 className="mt-3 font-serif text-2xl font-semibold text-[var(--foreground-contrast)]">
+                <h2 className="mt-3 font-serif text-2xl font-semibold text-[var(--ink)]">
                   View Roots and Reels Survey
                 </h2>
                 <p className="mt-2 text-sm text-[var(--muted)]">
@@ -58,7 +58,7 @@ export default function AdminSurveysAndRegistrationsPage() {
                 <p className="text-[0.58rem] font-bold uppercase tracking-[0.2em] text-[var(--rust)]">
                   Paid event passes
                 </p>
-                <h2 className="mt-3 font-serif text-2xl font-semibold text-[var(--foreground-contrast)]">
+                <h2 className="mt-3 font-serif text-2xl font-semibold text-[var(--ink)]">
                   View Roots and Reels registration
                 </h2>
                 <p className="mt-2 text-sm text-[var(--muted)]">

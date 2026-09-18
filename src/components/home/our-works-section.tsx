@@ -574,44 +574,6 @@ export default function OurWorksSection() {
           </div>
         )}
 
-        {/* VIEW ALL */}
-        {works.length > 0 ? (
-          <div className="mt-12 flex justify-center md:mt-16">
-            <a
-              href="#catalogue"
-              className="
-                group
-                inline-flex
-                items-center
-                gap-4
-                border-b
-                border-[var(--accent)]/60
-                pb-2
-                text-[0.64rem]
-                font-semibold
-                uppercase
-                tracking-[0.12em]
-                text-[var(--accent-soft)]
-                transition
-                duration-300
-                hover:border-white/70
-                hover:text-white
-              "
-            >
-              View All Projects
-              <span
-                aria-hidden="true"
-                className="
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-1.5
-                "
-              >
-                →
-              </span>
-            </a>
-          </div>
-        ) : null}
       </div>
     </section>
   );

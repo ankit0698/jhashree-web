@@ -11,7 +11,7 @@ import {
 type FormStatus = "idle" | "submitting" | "success" | "error";
 
 const fieldClassName =
-  "mt-1.5 w-full rounded-lg border border-black/10 bg-white/65 px-4 py-2.5 text-sm text-[var(--ink)] outline-none transition placeholder:text-[var(--muted)]/55 focus:border-[var(--rust)] focus:ring-4 focus:ring-[var(--rust)]/10";
+  "site-input";
 
 const labelClassName =
   "text-[0.54rem] font-semibold uppercase tracking-[0.14em] text-[var(--rust)]";
@@ -49,7 +49,7 @@ function SectionHeading({
   description?: string;
 }) {
   return (
-    <div className="border-b border-black/[0.07] pb-4">
+    <div className="border-b border-[var(--border)] pb-4">
       <p className="text-[0.58rem] font-bold uppercase tracking-[0.26em] text-[var(--rust)]">
         Section {step}
       </p>
@@ -144,7 +144,7 @@ export default function SurveyForm() {
     return (
       <div
         role="status"
-        className="grid min-h-[22rem] place-items-center rounded-[1.25rem] border border-[var(--rust)]/15 bg-white/55 px-6 py-12 text-center"
+        className="grid min-h-[22rem] place-items-center rounded-[1.25rem] border border-[var(--rust)]/15 bg-[var(--surface-soft)] px-6 py-12 text-center"
       >
         <div className="max-w-md">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[var(--rust)] text-white shadow-[0_10px_28px_rgba(166,57,30,0.22)]">
@@ -196,7 +196,7 @@ export default function SurveyForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="overflow-hidden rounded-[1.25rem] border border-black/[0.08] bg-[var(--surface)]"
+      className="overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface)]"
     >
       <div className="space-y-10 p-5 md:p-8">
         {/* Section 1 */}
@@ -261,7 +261,7 @@ export default function SurveyForm() {
                   className={`flex cursor-pointer items-center gap-3 rounded-lg border px-3.5 py-3 text-sm transition ${
                     primaryNiche === niche.value
                       ? "border-[var(--rust)]/40 bg-[var(--rust)]/[0.05] text-[var(--ink)]"
-                      : "border-black/10 bg-white/50 text-[var(--foreground)] hover:border-[var(--rust)]/25"
+                      : "border-[var(--border)] bg-[var(--surface-soft)] text-[var(--foreground)] hover:border-[var(--rust)]/25"
                   }`}
                 >
                   <input
@@ -310,7 +310,7 @@ export default function SurveyForm() {
               {SURVEY_PLATFORMS.map((platform) => (
                 <label
                   key={platform.value}
-                  className="flex cursor-pointer items-center gap-3 rounded-lg border border-black/10 bg-white/50 px-3.5 py-3 text-sm transition hover:border-[var(--rust)]/25 has-[:checked]:border-[var(--rust)]/40 has-[:checked]:bg-[var(--rust)]/[0.05]"
+                  className="flex cursor-pointer items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3.5 py-3 text-sm transition hover:border-[var(--rust)]/25 has-[:checked]:border-[var(--rust)]/40 has-[:checked]:bg-[var(--rust)]/[0.05]"
                 >
                   <input
                     type="radio"
@@ -485,7 +485,7 @@ export default function SurveyForm() {
                   className={`flex cursor-pointer items-center gap-3 rounded-lg border px-3.5 py-3 text-sm transition ${
                     hasSponsoredWork === option.value
                       ? "border-[var(--rust)]/40 bg-[var(--rust)]/[0.05]"
-                      : "border-black/10 bg-white/50 hover:border-[var(--rust)]/25"
+                      : "border-[var(--border)] bg-[var(--surface-soft)] hover:border-[var(--rust)]/25"
                   }`}
                 >
                   <input
@@ -541,7 +541,7 @@ export default function SurveyForm() {
           </div>
         </section>
 
-        <div className="flex flex-col gap-3 border-t border-black/[0.07] pt-6 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col gap-3 border-t border-[var(--border)] pt-6 md:flex-row md:items-center md:justify-between">
           <button
             type="submit"
             disabled={formStatus === "submitting"}

@@ -24,13 +24,6 @@ export type HighlightItem = {
   description: string;
 };
 
-export type FeaturedWorkItem = {
-  title: string;
-  image: string;
-  alt: string;
-  blurb: string;
-};
-
 export type BrandCardItem = {
   image: string;
   alt: string;
@@ -137,23 +130,6 @@ export const highlights: HighlightItem[] = [
   },
 ];
 
-export const featuredWork: FeaturedWorkItem[] = [
-  {
-    title: "Social Media Management Packages",
-    image: "/assets/social-media-packages.png",
-    alt: "Jhashree Productions social media management packages poster",
-    blurb:
-      "Layered service plans built for local businesses, growth-stage brands, and premium digital campaigns.",
-  },
-  {
-    title: "Video Production Pricing",
-    image: "/assets/video-production-pricing.png",
-    alt: "Jhashree Productions video production pricing poster",
-    blurb:
-      "Clear production options for reels, documentaries, podcasts, camera-based shoots, and drone support.",
-  },
-];
-
 export const brandCards: BrandCardItem[] = [
   {
     image: "/assets/camera.jpg",
@@ -168,6 +144,35 @@ export const brandCards: BrandCardItem[] = [
 export const socialLinks: SocialLinkItem[] = [
   {
     label: "Instagram",
-    href: "https://www.instagram.com/jhashree_/profilecard/?igsh=MXRkZ2xvNjRiOGhiYg%3D%3D",
+    href: "https://www.instagram.com/jhashree.vibe.vision/",
+  },
+];
+
+export type HeroAtmosphereItem = {
+  src: string;
+  alt: string;
+};
+
+/** Home hero fading backgrounds — photographic, Jhashree-relevant. */
+export const heroAtmosphereImages: HeroAtmosphereItem[] = [
+  {
+    src: "/assets/redesign/jhashree-video-production.jpg",
+    alt: "Video production crew filming on location",
+  },
+  {
+    src: "/assets/redesign/jhashree-social-content.jpg",
+    alt: "Social media content creators filming reels",
+  },
+  {
+    src: "/assets/redesign/jhashree-branding-workspace.jpg",
+    alt: "Brand identity and design workspace",
+  },
+  {
+    src: "/assets/redesign/jhashree-editing-suite.jpg",
+    alt: "Video editing suite in a creative studio",
+  },
+  {
+    src: "/assets/redesign/jhashree-mithila-story.jpg",
+    alt: "Filmmaker capturing Mithila cultural art",
   },
 ];

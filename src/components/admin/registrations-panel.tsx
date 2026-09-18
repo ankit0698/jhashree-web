@@ -255,19 +255,19 @@ export default function RegistrationsPanel({ user }: { user: User | null }) {
 
   return (
     <section className="mt-6">
-      <div className="relative overflow-hidden border border-[var(--border)] bg-[linear-gradient(135deg,rgba(255,250,242,0.98),rgba(242,228,204,0.88))] p-6 shadow-[var(--shadow-soft)] md:p-8">
+      <div className="relative overflow-hidden border border-[var(--border)] bg-[linear-gradient(135deg,var(--surface)_0%,var(--surface-soft)_100%)] p-6 shadow-[var(--shadow-soft)] md:p-8">
         <div
           aria-hidden="true"
           className="absolute -right-16 -top-20 h-52 w-52 rounded-full bg-[var(--accent)]/12 blur-3xl"
         />
         <div className="relative">
-          <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent-deep)] uppercase">
+          <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent)] uppercase">
             Roots &amp; Reels Season 2
           </p>
-          <h1 className="mt-2 font-serif text-5xl font-semibold leading-none text-[var(--foreground-contrast)] md:text-6xl">
+          <h1 className="mt-2 font-serif text-5xl font-semibold leading-none text-[var(--ink)] md:text-6xl">
             Sold registrations
           </h1>
-          <span className="mt-5 inline-flex border-l-4 border-l-[var(--rust)] bg-white/75 px-3 py-1.5 text-xs font-bold text-[var(--muted)] shadow-sm">
+          <span className="mt-5 inline-flex border-l-4 border-l-[var(--rust)] bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-bold text-[var(--muted)] shadow-sm">
             {total} paid {total === 1 ? "registration" : "registrations"}
           </span>
         </div>
@@ -314,7 +314,7 @@ export default function RegistrationsPanel({ user }: { user: User | null }) {
               showDetailOnMobile ? "hidden lg:block" : "block"
             }`}
           >
-            <div className="border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--surface-soft)_70%,#d9cbb8)] px-4 py-3">
+            <div className="border-b border-[var(--border)] bg-[var(--surface)] px-4 py-3">
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--muted)]">
                 All paid tickets
               </p>
@@ -329,8 +329,8 @@ export default function RegistrationsPanel({ user }: { user: User | null }) {
                       onClick={() => selectRegistration(registration.id)}
                       className={`w-full rounded-lg border px-3.5 py-3.5 text-left transition ${
                         isSelected
-                          ? "border-[var(--rust)]/35 bg-[color-mix(in_srgb,var(--rust)_12%,#e5d8c4)] shadow-sm"
-                          : "border-black/[0.08] bg-[color-mix(in_srgb,#d4c4ae_55%,#cbb89f)] hover:border-black/15 hover:bg-[color-mix(in_srgb,#cfc0aa_40%,#c4b194)]"
+                          ? "border-[var(--rust)]/35 bg-[color-mix(in_srgb,var(--rust)_18%,var(--surface))] shadow-sm"
+                          : "border-[var(--border)] bg-[var(--surface-soft)] hover:border-white/20 hover:bg-[var(--surface)]"
                       }`}
                     >
                       <p className="truncate font-semibold text-[var(--foreground-contrast)]">

@@ -2,9 +2,10 @@ import path from "node:path";
 
 import { createCanvas, GlobalFonts, loadImage } from "@napi-rs/canvas";
 
-const TEMPLATE = "public/assets/root-and-reels-ticket.jpeg";
+const TEMPLATE = "public/assets/root-and-reels-ticket.png";
 const FONT = "assets/fonts/LiberationSans-Bold.ttf";
-const BOX = { x: 1205, y: 24, w: 196, h: 42, r: 8, size: 17 } as const;
+/** Scaled for 6000×2559 template (was 1600×682 → ×3.75). */
+const BOX = { x: 4519, y: 90, w: 735, h: 158, r: 30, size: 64 } as const;
 
 export class TicketRenderError extends Error {
   constructor(message: string) {

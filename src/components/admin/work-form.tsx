@@ -437,7 +437,7 @@ export default function WorkForm({
               className={`border px-4 py-4 text-left transition ${
                 mediaSource === source
                   ? "border-[var(--accent)] bg-[var(--accent)]/10 ring-2 ring-[var(--accent)]/10"
-                  : "border-[var(--border-strong)] bg-white hover:border-[var(--accent)]"
+                  : "border-[var(--border-strong)] bg-[var(--surface)] hover:border-[var(--accent)]"
               }`}
             >
               <span className="block font-bold">
@@ -506,7 +506,7 @@ export default function WorkForm({
                   onClick={() => selectUploadType(type)}
                   className={`rounded-full px-4 py-2 text-sm font-bold capitalize transition ${
                     uploadType === type
-                      ? "bg-[var(--foreground-contrast)] text-white"
+                      ? "bg-[var(--rust)] text-[#fffaf3]"
                       : "bg-[var(--surface-soft)] text-[var(--muted)]"
                   }`}
                 >
@@ -517,7 +517,7 @@ export default function WorkForm({
 
             <label
               htmlFor="media-file"
-              className="mt-5 flex cursor-pointer flex-col items-center justify-center border-2 border-dashed border-[var(--border-strong)] bg-white px-5 py-10 text-center transition hover:border-[var(--accent)]"
+              className="mt-5 flex cursor-pointer flex-col items-center justify-center border-2 border-dashed border-[var(--border-strong)] bg-[var(--surface)] px-5 py-10 text-center transition hover:border-[var(--accent)]"
             >
               <span className="font-bold">
                 {selectedFiles.length > 0

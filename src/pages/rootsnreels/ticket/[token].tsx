@@ -25,7 +25,7 @@ function TicketCard({
   downloadName: string;
 }) {
   return (
-    <article className="rounded-[1.25rem] border border-black/[0.08] bg-white/75 p-4 shadow-[0_16px_40px_rgba(34,25,18,0.08)] md:p-5">
+    <article className="rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-[var(--shadow-soft)] md:p-5">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="text-[0.54rem] font-bold uppercase tracking-[0.2em] text-[var(--rust)]">
@@ -45,7 +45,7 @@ function TicketCard({
       <img
         src={imageSrc}
         alt={`Roots and Reels ticket ${code}`}
-        className="w-full rounded-lg border border-black/10"
+        className="w-full rounded-lg border border-[var(--border)]"
       />
     </article>
   );

@@ -51,7 +51,7 @@ declare global {
 }
 
 const fieldClassName =
-  "mt-1.5 w-full rounded-lg border border-black/10 bg-white/65 px-4 py-2.5 text-sm text-[var(--ink)] outline-none transition placeholder:text-[var(--muted)]/55 focus:border-[var(--rust)] focus:ring-4 focus:ring-[var(--rust)]/10";
+  "site-input";
 const labelClassName =
   "text-[0.54rem] font-semibold uppercase tracking-[0.14em] text-[var(--rust)]";
 
@@ -95,7 +95,7 @@ function StepHeading({
   description?: string;
 }) {
   return (
-    <div className="border-b border-black/[0.07] pb-4">
+    <div className="border-b border-[var(--border)] pb-4">
       <p className="text-[0.58rem] font-bold uppercase tracking-[0.26em] text-[var(--rust)]">
         Step {step}
       </p>
@@ -308,7 +308,7 @@ export default function RegistrationForm() {
   if (step === 8 && confirmation) {
     const ticketPageHref = `/rootsnreels/ticket/${confirmation.ticketToken}`;
     return (
-      <div className="rounded-[1.4rem] border border-black/[0.08] bg-white/70 p-6 shadow-[0_18px_50px_rgba(34,25,18,0.08)] md:p-8">
+      <div className="rounded-[1.4rem] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-soft)] md:p-8">
         <p className="text-[0.58rem] font-bold uppercase tracking-[0.26em] text-[var(--rust)]">
           Registration confirmed
         </p>
@@ -320,7 +320,7 @@ export default function RegistrationForm() {
         </p>
 
         <dl className="mt-6 space-y-3 text-sm text-[var(--ink)]">
-          <div className="flex justify-between gap-4 border-b border-black/[0.06] pb-2">
+          <div className="flex justify-between gap-4 border-b border-[var(--border)] pb-2">
             <dt className="text-[var(--muted)]">
               {confirmation.registrationCodeGuest
                 ? "Ticket 1"
@@ -329,26 +329,26 @@ export default function RegistrationForm() {
             <dd className="font-semibold">{confirmation.registrationCode}</dd>
           </div>
           {confirmation.registrationCodeGuest ? (
-            <div className="flex justify-between gap-4 border-b border-black/[0.06] pb-2">
+            <div className="flex justify-between gap-4 border-b border-[var(--border)] pb-2">
               <dt className="text-[var(--muted)]">Ticket 2</dt>
               <dd className="font-semibold">
                 {confirmation.registrationCodeGuest}
               </dd>
             </div>
           ) : null}
-          <div className="flex justify-between gap-4 border-b border-black/[0.06] pb-2">
+          <div className="flex justify-between gap-4 border-b border-[var(--border)] pb-2">
             <dt className="text-[var(--muted)]">Date</dt>
             <dd>4 October 2026</dd>
           </div>
-          <div className="flex justify-between gap-4 border-b border-black/[0.06] pb-2">
+          <div className="flex justify-between gap-4 border-b border-[var(--border)] pb-2">
             <dt className="text-[var(--muted)]">Time</dt>
             <dd>10:00 AM onwards</dd>
           </div>
-          <div className="flex justify-between gap-4 border-b border-black/[0.06] pb-2">
+          <div className="flex justify-between gap-4 border-b border-[var(--border)] pb-2">
             <dt className="text-[var(--muted)]">Venue</dt>
             <dd>Mithila Vatika</dd>
           </div>
-          <div className="flex justify-between gap-4 border-b border-black/[0.06] pb-2">
+          <div className="flex justify-between gap-4 border-b border-[var(--border)] pb-2">
             <dt className="text-[var(--muted)]">Passes</dt>
             <dd className="font-semibold">
               {confirmation.passesCount}{" "}
@@ -382,7 +382,7 @@ export default function RegistrationForm() {
   return (
     <form
       onSubmit={step === 7 ? handlePay : (event) => event.preventDefault()}
-      className="rounded-[1.4rem] border border-black/[0.08] bg-white/70 p-6 shadow-[0_18px_50px_rgba(34,25,18,0.08)] md:p-8"
+      className="rounded-[1.4rem] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-soft)] md:p-8"
     >
       {step === 1 ? (
         <div className="space-y-5">
@@ -564,7 +564,7 @@ export default function RegistrationForm() {
                   className={`flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-3 text-sm ${
                     checked
                       ? "border-[var(--rust)] bg-[var(--rust)]/5"
-                      : "border-black/10 bg-white/50"
+                      : "border-[var(--border)] bg-[var(--surface-soft)]"
                   }`}
                 >
                   <input
@@ -647,7 +647,7 @@ export default function RegistrationForm() {
       {step === 7 ? (
         <div className="space-y-6">
           <StepHeading step="07" title="Secure your slot" />
-          <div className="rounded-2xl border border-black/10 bg-[var(--paper-light)] px-5 py-6 text-center">
+          <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-soft)] px-5 py-6 text-center">
             <p className="text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--rust)]">
               Roots &amp; Reels Season 2 Pass
             </p>
@@ -687,7 +687,7 @@ export default function RegistrationForm() {
             type="button"
             onClick={goBack}
             disabled={step === 1}
-            className="rounded-full border border-black/15 bg-white px-5 py-2.5 text-sm font-semibold text-[var(--ink)] disabled:opacity-40"
+            className="rounded-full border border-[var(--border)] bg-[var(--surface-soft)] px-5 py-2.5 text-sm font-semibold text-[var(--ink)] disabled:opacity-40"
           >
             Back
           </button>

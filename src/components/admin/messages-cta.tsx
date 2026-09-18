@@ -33,7 +33,7 @@ export default function MessagesCta({ user }: { user: User | null }) {
     <section className="mt-8 overflow-hidden border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-soft)]">
       <div className="flex flex-col gap-5 p-5 md:flex-row md:items-center md:justify-between md:p-7">
         <div className="flex min-w-0 items-center gap-4">
-          <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[var(--ink)] text-[var(--accent)]">
+          <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[var(--canvas)] text-[var(--accent)]">
             <svg
               aria-hidden="true"
               viewBox="0 0 24 24"
@@ -58,18 +58,18 @@ export default function MessagesCta({ user }: { user: User | null }) {
 
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2.5">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent-deep)]">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
                 Contact inbox
               </p>
 
               {unreadCount !== null && unreadCount > 0 ? (
-                <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-amber-800">
+                <span className="rounded-full bg-amber-500/20 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-amber-300">
                   {unreadCount} unread
                 </span>
               ) : null}
             </div>
 
-            <h2 className="mt-1 font-serif text-3xl font-semibold leading-tight text-[var(--foreground-contrast)]">
+            <h2 className="mt-1 font-serif text-3xl font-semibold leading-tight text-[var(--ink)]">
               Messages
             </h2>
             <p className="mt-1 text-sm leading-6 text-[var(--muted)]">

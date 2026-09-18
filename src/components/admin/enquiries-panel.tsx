@@ -163,7 +163,7 @@ export default function EnquiriesPanel({ user }: { user: User | null }) {
                 className={`flex flex-col rounded-xl border p-5 shadow-[0_10px_28px_rgba(55,38,22,0.05)] transition ${
                   enquiry.isRead
                     ? "border-[var(--border)] bg-[var(--paper-light)] opacity-80"
-                    : "border-[var(--rust)]/30 bg-white shadow-[0_12px_34px_rgba(155,52,31,0.09)]"
+                    : "border-[var(--rust)]/30 bg-[var(--surface)] shadow-[var(--shadow-soft)]"
                 }`}
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">

@@ -157,12 +157,12 @@ export default function ContactSection() {
       </div>
 
       <div className="site-gutter relative z-10 mx-auto max-w-[82rem]">
-        <div className="overflow-hidden rounded-[1.25rem] border border-black/[0.08] bg-[var(--surface)]">
+        <div className="overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface)]">
           <div className="grid md:grid-cols-[0.82fr_1.18fr]">
             {/* =========================
                 LEFT
             ========================== */}
-            <div className="relative border-b border-black/[0.08] p-5 md:border-b-0 md:border-r md:p-6">
+            <div className="relative border-b border-[var(--border)] p-5 md:border-b-0 md:border-r md:p-6">
               {/* SMALL INTERNAL FLOWER ACCENT */}
               <Image
                 src="/assets/madhubani-paintings/lotus-border.webp"
@@ -210,7 +210,7 @@ export default function ContactSection() {
                 </div>
 
                 {/* SMALL MAP */}
-                <div className="relative mt-4 h-[10rem] overflow-hidden rounded-xl border border-black/[0.08] bg-[var(--ink)]">
+                <div className="relative mt-4 h-[10rem] overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--canvas)]">
                   <iframe
                     title="Jhashree Productions location"
                     src="https://www.google.com/maps?q=JhaShree+Productions,+Santunagar+Chowk,+Madhubani,+Bihar+847211&z=16&output=embed"
@@ -260,7 +260,7 @@ export default function ContactSection() {
               {formStatus === "success" ? (
                 <div
                   role="status"
-                  className="grid min-h-[19rem] place-items-center rounded-xl border border-[var(--rust)]/15 bg-white/55 px-5 py-8 text-center"
+                  className="grid min-h-[19rem] place-items-center rounded-xl border border-[var(--rust)]/15 bg-[var(--surface-soft)] px-5 py-8 text-center"
                 >
                   <div className="max-w-sm">
                     <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[var(--rust)] text-white shadow-[0_10px_28px_rgba(166,57,30,0.22)]">
@@ -324,7 +324,7 @@ export default function ContactSection() {
                     required
                     maxLength={160}
                     placeholder="What would you like to create?"
-                    className="mt-1.5 w-full rounded-lg border border-black/10 bg-white/65 px-4 py-2.5 text-sm text-[var(--ink)] outline-none transition placeholder:text-[var(--muted)]/55 focus:border-[var(--rust)] focus:ring-4 focus:ring-[var(--rust)]/10"
+                    className="site-input"
                   />
                 </div>
 
@@ -345,7 +345,7 @@ export default function ContactSection() {
                       maxLength={30}
                       autoComplete="tel"
                       placeholder="+91 98765 43210"
-                      className="mt-1.5 w-full rounded-lg border border-black/10 bg-white/65 px-4 py-2.5 text-sm text-[var(--ink)] outline-none transition placeholder:text-[var(--muted)]/55 focus:border-[var(--rust)] focus:ring-4 focus:ring-[var(--rust)]/10"
+                      className="site-input"
                     />
                   </div>
 
@@ -364,7 +364,7 @@ export default function ContactSection() {
                       maxLength={254}
                       autoComplete="email"
                       placeholder="you@example.com"
-                      className="mt-1.5 w-full rounded-lg border border-black/10 bg-white/65 px-4 py-2.5 text-sm text-[var(--ink)] outline-none transition placeholder:text-[var(--muted)]/55 focus:border-[var(--rust)] focus:ring-4 focus:ring-[var(--rust)]/10"
+                      className="site-input"
                     />
                   </div>
                 </div>
@@ -385,7 +385,7 @@ export default function ContactSection() {
                     maxLength={5000}
                     rows={4}
                     placeholder="A few details about your idea, timeline and requirements..."
-                    className="mt-1.5 w-full resize-none rounded-lg border border-black/10 bg-white/65 px-4 py-3 text-sm leading-6 text-[var(--ink)] outline-none transition placeholder:text-[var(--muted)]/55 focus:border-[var(--rust)] focus:ring-4 focus:ring-[var(--rust)]/10"
+                    className="site-input resize-none py-3 leading-6"
                   />
                 </div>
 

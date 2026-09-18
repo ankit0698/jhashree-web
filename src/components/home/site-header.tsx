@@ -46,7 +46,7 @@ export default function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-[60] border-b border-black/[0.06] bg-[var(--paper-light)]/95 text-[var(--ink)] shadow-[0_5px_20px_rgba(44,30,18,0.06)] backdrop-blur-xl">
+    <header className="sticky top-0 z-[60] border-b border-white/[0.08] bg-[var(--paper-light)]/95 text-[var(--ink)] shadow-[0_5px_20px_rgba(0,0,0,0.35)] backdrop-blur-xl">
       <div className="site-gutter mx-auto flex min-h-[5.25rem] max-w-[90rem] items-center justify-between gap-6">
         <a
           href="#top"
@@ -90,12 +90,20 @@ export default function SiteHeader() {
           ))}
         </nav>
 
-        <a
-          href="#contact"
-          className="site-button site-button-rust hidden min-h-11 px-6 text-base md:inline-flex"
-        >
-          Let&apos;s Talk
-        </a>
+        <div className="hidden items-center gap-3 md:flex">
+          <a
+            href="/rootsnreels"
+            className="site-button site-button-outline-light min-h-11 px-5 text-base"
+          >
+            Register
+          </a>
+          <a
+            href="#contact"
+            className="site-button site-button-rust min-h-11 px-6 text-base"
+          >
+            Let&apos;s Talk
+          </a>
+        </div>
 
         <button
           type="button"
@@ -103,7 +111,7 @@ export default function SiteHeader() {
           aria-controls="mobile-navigation"
           aria-label="Toggle navigation menu"
           onClick={() => setIsMenuOpen((open) => !open)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-black/10 bg-transparent transition hover:border-[var(--rust)] hover:text-[var(--rust)] md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/15 bg-transparent transition hover:border-[var(--rust)] hover:text-[var(--rust)] md:hidden"
         >
           <span className="flex flex-col gap-1.5" aria-hidden="true">
             <span className="block h-px w-5 bg-current" />
@@ -116,9 +124,9 @@ export default function SiteHeader() {
       {isMenuOpen ? (
         <div
           id="mobile-navigation"
-          className="site-gutter border-t border-black/[0.07] pb-5 pt-3 md:hidden"
+          className="site-gutter border-t border-white/[0.08] pb-5 pt-3 md:hidden"
         >
-          <nav className="rounded-xl border border-black/[0.08] bg-[var(--surface)] p-2 shadow-[var(--shadow-soft)]">
+          <nav className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-[var(--shadow-soft)]">
             {navItems.map((item) => (
               <a
                 key={item.href}
@@ -128,7 +136,7 @@ export default function SiteHeader() {
                   closeMenu();
                 }}
                 aria-current={activeHref === item.href ? "page" : undefined}
-                className={`block rounded-lg border-b border-black/[0.06] px-4 py-3 text-center text-sm font-semibold transition last:border-0 hover:bg-[var(--background)] hover:text-[var(--rust)] ${
+                className={`block rounded-lg border-b border-[var(--border)] px-4 py-3 text-center text-sm font-semibold transition last:border-0 hover:bg-[var(--background)] hover:text-[var(--rust)] ${
                   activeHref === item.href
                     ? "bg-[var(--background)] text-[var(--rust)]"
                     : "text-[var(--ink)]"
@@ -137,6 +145,13 @@ export default function SiteHeader() {
                 {item.label}
               </a>
             ))}
+            <a
+              href="/rootsnreels"
+              onClick={closeMenu}
+              className="site-button site-button-rust mt-2 w-full"
+            >
+              Register Yourself
+            </a>
             <a
               href="#contact"
               onClick={closeMenu}

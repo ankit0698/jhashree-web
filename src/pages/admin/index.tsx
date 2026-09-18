@@ -153,20 +153,20 @@ export default function AdminPage() {
 
       <AdminShell user={user} isCheckingSession={isCheckingSession}>
         <section className="py-7 md:py-10">
-          <div className="relative overflow-hidden border border-[var(--border)] bg-[linear-gradient(135deg,rgba(255,250,242,0.98),rgba(242,228,204,0.88))] p-6 shadow-[var(--shadow-soft)] md:p-9">
+          <div className="relative overflow-hidden border border-[var(--border)] bg-[linear-gradient(135deg,var(--surface)_0%,var(--surface-soft)_100%)] p-6 shadow-[var(--shadow-soft)] md:p-9">
             <div
               aria-hidden="true"
               className="absolute -right-16 -top-20 h-52 w-52 rounded-full bg-[var(--accent)]/12 blur-3xl"
             />
             <div className="relative flex flex-wrap items-end justify-between gap-7">
               <div>
-                <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent-deep)] uppercase">
+                <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent)] uppercase">
                   Portfolio manager
                 </p>
-                <h1 className="mt-2 font-serif text-5xl font-semibold leading-none text-[var(--foreground-contrast)] md:text-6xl">
+                <h1 className="mt-2 font-serif text-5xl font-semibold leading-none text-[var(--ink)] md:text-6xl">
                   Our Works
                 </h1>
-                <span className="mt-5 inline-flex border-l-4 border-l-[var(--rust)] bg-white/75 px-3 py-1.5 text-xs font-bold text-[var(--muted)] shadow-sm">
+                <span className="mt-5 inline-flex border-l-4 border-l-[var(--rust)] bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-bold text-[var(--muted)] shadow-sm">
                   {works.length} {works.length === 1 ? "work" : "works"}
                 </span>
               </div>
@@ -196,7 +196,7 @@ export default function AdminPage() {
           {error ? (
             <div
               role="alert"
-              className="mt-7 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+              className="mt-7 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-400/30 bg-red-950/40 px-4 py-3 text-sm text-red-200"
             >
               <span>{error}</span>
               <button
@@ -232,7 +232,7 @@ export default function AdminPage() {
                     <path d="m7 15 3-3 2.5 2.5L15 12l2 2M12 8h.01" />
                   </svg>
                 </span>
-                <h2 className="mt-5 font-serif text-4xl font-semibold">
+                <h2 className="mt-5 font-serif text-4xl font-semibold text-[var(--ink)]">
                   No works yet
                 </h2>
                 <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[var(--muted)]">
@@ -275,8 +275,8 @@ export default function AdminPage() {
                         <span
                           className={`rounded-full px-2.5 py-1 text-[0.65rem] font-bold tracking-wider uppercase ${
                             work.status === "published"
-                              ? "bg-emerald-100 text-emerald-800"
-                              : "bg-amber-100 text-amber-800"
+                              ? "bg-emerald-500/20 text-emerald-300"
+                              : "bg-amber-500/20 text-amber-300"
                           }`}
                         >
                           {work.status}
@@ -286,7 +286,7 @@ export default function AdminPage() {
                         </span>
                       </div>
 
-                      <h2 className="mt-3 truncate font-serif text-2xl font-semibold">
+                      <h2 className="mt-3 truncate font-serif text-2xl font-semibold text-[var(--ink)]">
                         {work.title}
                       </h2>
                       <p className="mt-1 text-xs text-[var(--muted)]">
