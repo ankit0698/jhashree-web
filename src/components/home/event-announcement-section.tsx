@@ -13,7 +13,7 @@ export default function EventAnnouncementSection() {
       <div className="site-gutter relative z-10 mx-auto max-w-[90rem] py-14 md:py-20">
         <div className="mx-auto max-w-3xl text-center md:max-w-none md:text-left">
           <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.28em] text-[var(--rust)]">
-            Jhashree presents · Upcoming
+            Jhashree presents · The wait is over
           </p>
 
           <div className="mt-3 grid gap-4 md:grid-cols-[1fr_auto] md:items-end md:gap-8">
@@ -25,20 +25,20 @@ export default function EventAnnouncementSection() {
                 </span>
               </h2>
               <p className="mt-4 max-w-xl text-sm leading-7 text-[var(--muted)] md:text-[0.95rem]">
-                Creator × Brand Connect in Madhubani. One day of culture,
-                content, and collaboration — presented by Jhashree Productions.
+                Creator × Brand Connect in Madhubani. Online registration is
+                now closed — thank you for joining the movement.
               </p>
               <p className="mt-3 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--hero-muted)]">
-                Sunday 4 Oct 2026 · 10:00 AM · Mithila Vatika
+                Sunday 4 Oct 2026 · Mithila Vatika · Registration closed
               </p>
             </div>
 
             <div className="flex flex-col items-center gap-3 md:items-end">
               <Link
                 href="/rootsnreels"
-                className="site-button site-button-rust min-w-[12.5rem]"
+                className="site-button site-button-outline-light min-w-[12.5rem]"
               >
-                Register Yourself
+                View event
                 <span aria-hidden="true">→</span>
               </Link>
               <Link
@@ -64,7 +64,7 @@ export default function EventAnnouncementSection() {
             priority={false}
           />
           <figcaption className="border-t border-white/[0.08] bg-[var(--canvas)] px-4 py-3 text-center text-[0.64rem] font-semibold uppercase tracking-[0.14em] text-[var(--hero-muted)] md:px-6">
-            Tickets live · Buy 1 Get 1 Free · Limited slots
+            Registration closed · See you at Mithila Vatika
           </figcaption>
         </figure>
       </div>

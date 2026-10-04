@@ -1,7 +1,10 @@
 import type { User } from "firebase/auth";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { getAdminRegistrations } from "@/lib/registration/admin-api";
+import {
+  downloadRegistrationsPdf,
+  getAdminRegistrations,
+} from "@/lib/registration/admin-api";
 import {
   AGE_GROUPS,
   ATTENDEE_TYPES,
@@ -188,6 +191,7 @@ export default function RegistrationsPanel({ user }: { user: User | null }) {
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [showDetailOnMobile, setShowDetailOnMobile] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
 
   const selectedRegistration = useMemo(
     () => registrations.find((item) => item.id === selectedId) ?? null,
@@ -253,6 +257,23 @@ export default function RegistrationsPanel({ user }: { user: User | null }) {
     setShowDetailOnMobile(true);
   }
 
+  async function handleExportPdf() {
+    if (!user || isExporting) return;
+    setIsExporting(true);
+    setError("");
+    try {
+      await downloadRegistrationsPdf(user);
+    } catch (exportError) {
+      setError(
+        exportError instanceof Error
+          ? exportError.message
+          : "Registrations PDF could not be downloaded.",
+      );
+    } finally {
+      setIsExporting(false);
+    }
+  }
+
   return (
     <section className="mt-6">
       <div className="relative overflow-hidden border border-[var(--border)] bg-[linear-gradient(135deg,var(--surface)_0%,var(--surface-soft)_100%)] p-6 shadow-[var(--shadow-soft)] md:p-8">
@@ -260,16 +281,26 @@ export default function RegistrationsPanel({ user }: { user: User | null }) {
           aria-hidden="true"
           className="absolute -right-16 -top-20 h-52 w-52 rounded-full bg-[var(--accent)]/12 blur-3xl"
         />
-        <div className="relative">
-          <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent)] uppercase">
-            Roots &amp; Reels Season 2
-          </p>
-          <h1 className="mt-2 font-serif text-5xl font-semibold leading-none text-[var(--ink)] md:text-6xl">
-            Sold registrations
-          </h1>
-          <span className="mt-5 inline-flex border-l-4 border-l-[var(--rust)] bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-bold text-[var(--muted)] shadow-sm">
-            {total} paid {total === 1 ? "registration" : "registrations"}
-          </span>
+        <div className="relative flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="text-sm font-bold tracking-[0.18em] text-[var(--accent)] uppercase">
+              Roots &amp; Reels Season 2
+            </p>
+            <h1 className="mt-2 font-serif text-5xl font-semibold leading-none text-[var(--ink)] md:text-6xl">
+              Sold registrations
+            </h1>
+            <span className="mt-5 inline-flex border-l-4 border-l-[var(--rust)] bg-[var(--surface-soft)] px-3 py-1.5 text-xs font-bold text-[var(--muted)] shadow-sm">
+              {total} paid {total === 1 ? "registration" : "registrations"}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={handleExportPdf}
+            disabled={!user || isExporting || isLoading}
+            className="admin-button admin-button-secondary"
+          >
+            {isExporting ? "Preparing PDF…" : "Download PDF"}
+          </button>
         </div>
       </div>
 

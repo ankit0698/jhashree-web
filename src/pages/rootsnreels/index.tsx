@@ -1,9 +1,9 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactElement } from "react";
 
 import SiteFooter from "@/components/home/site-footer";
 import Layout from "@/components/layout";
-import RegistrationForm from "@/components/registration/registration-form";
 import SurveyHeader from "@/components/survey/survey-header";
 
 export default function RootsAndReelsRegisterPage() {
@@ -31,9 +31,9 @@ export default function RootsAndReelsRegisterPage() {
               </p>
 
               <h1 className="mt-3 font-serif text-[2.45rem] leading-[0.95] tracking-[-0.03em] text-[var(--ink)] md:text-[3.4rem]">
-                Register for
+                The wait is over.
                 <span className="mt-1 block italic text-[var(--rust)]">
-                  the experience
+                  Registration is closed.
                 </span>
               </h1>
 
@@ -44,16 +44,53 @@ export default function RootsAndReelsRegisterPage() {
               </div>
 
               <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[var(--muted)] md:text-[0.95rem]">
-                One pass. Two people. One day full of creators, brands, music,
-                content &amp; fun.
+                Thank you for the love. Online ticket registration for Roots
+                &amp; Reels Season 2 is now closed. If you already have a ticket
+                link, you can still open and download it anytime.
               </p>
 
               <p className="mt-3 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--muted-strong)]">
-                4 Oct 2026 · 10:00 AM · Mithila Vatika · ₹299
+                4 Oct 2026 · Mithila Vatika · Madhubani
               </p>
             </div>
 
-            <RegistrationForm />
+            <div className="space-y-6">
+              <figure className="overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--canvas)] shadow-[var(--shadow-soft)]">
+                <Image
+                  src="/assets/Roots-and-Reels.png"
+                  alt="Roots & Reels Season 2 — Creator × Brand Connect in Madhubani, Bihar."
+                  width={1920}
+                  height={1080}
+                  priority
+                  sizes="(max-width: 768px) 100vw, 52rem"
+                  className="h-auto w-full object-cover object-top"
+                />
+              </figure>
+
+              <figure className="overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--canvas)] shadow-[var(--shadow-soft)]">
+                <Image
+                  src="/assets/roots-and-reels-announcement.png"
+                  alt="Roots & Reels Season 2 event announcement poster."
+                  width={1920}
+                  height={1080}
+                  sizes="(max-width: 768px) 100vw, 52rem"
+                  className="h-auto w-full object-cover object-top"
+                />
+              </figure>
+            </div>
+
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+              <Link href="/" className="site-button site-button-rust">
+                Back to Home
+                <span aria-hidden="true">→</span>
+              </Link>
+              <Link
+                href="/survey"
+                className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[var(--accent-soft)] transition hover:text-[var(--ink)]"
+              >
+                Creator application →
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -66,8 +103,8 @@ export default function RootsAndReelsRegisterPage() {
 RootsAndReelsRegisterPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <Layout
-      title="Roots & Reels Season 2 Registration | Jhashree Productions"
-      description="Register for Roots & Reels Season 2 at Mithila Vatika, Madhubani. ₹299 pass with BUY 1 GET 1 FREE for the first 50."
+      title="Roots & Reels Season 2 | Registration Closed | Jhashree Productions"
+      description="Online registration for Roots & Reels Season 2 is closed. Existing ticket holders can still open their ticket links."
     >
       {page}
     </Layout>

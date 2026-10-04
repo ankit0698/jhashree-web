@@ -27,3 +27,28 @@ export async function getAdminRegistrations(user: User) {
     total: result.total ?? result.registrations?.length ?? 0,
   };
 }
+
+export async function downloadRegistrationsPdf(user: User) {
+  const idToken = await user.getIdToken();
+  const response = await fetch("/api/admin/registrations/export", {
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    const result = (await response.json().catch(() => ({}))) as ErrorResponse;
+    throw new Error(result.error || "Registrations PDF could not be downloaded.");
+  }
+
+  const blob = await response.blob();
+  const stamp = new Date().toISOString().slice(0, 10);
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `jhashree-event-registrations-${stamp}.pdf`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
