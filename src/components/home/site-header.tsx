@@ -95,7 +95,7 @@ export default function SiteHeader() {
             href="/rootsnreels"
             className="site-button site-button-outline-light min-h-11 px-5 text-base"
           >
-            Register
+            Roots &amp; Reels
           </a>
           <a
             href="#contact"
@@ -148,9 +148,9 @@ export default function SiteHeader() {
             <a
               href="/rootsnreels"
               onClick={closeMenu}
-              className="site-button site-button-rust mt-2 w-full"
+              className="site-button site-button-outline-light mt-2 w-full"
             >
-              Register Yourself
+              Roots &amp; Reels
             </a>
             <a
               href="#contact"

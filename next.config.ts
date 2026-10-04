@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["@napi-rs/canvas", "razorpay"],
+  serverExternalPackages: ["@napi-rs/canvas", "razorpay", "pdfkit"],
   images: {
     remotePatterns: [
       {

@@ -365,3 +365,32 @@ export async function listPaidRegistrations(): Promise<AdminRegistration[]> {
 
   return (data as RegistrationDbRow[]).map(serializeAdminRegistration);
 }
+
+/** All statuses for organizer export: paid first, then pending, then others. */
+export async function listAllRegistrations(): Promise<AdminRegistration[]> {
+  const supabase = getSupabaseAdminClient();
+  const { data, error } = await supabase
+    .from(EVENT_REGISTRATIONS_TABLE)
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[registration] list all failed", error);
+    throw new Error("Registrations could not be loaded.");
+  }
+
+  const rows = (data as RegistrationDbRow[]).map(serializeAdminRegistration);
+  const rank = (status: AdminRegistration["status"]) => {
+    if (status === "paid") return 0;
+    if (status === "pending") return 1;
+    return 2;
+  };
+
+  return rows.sort((a, b) => {
+    const byStatus = rank(a.status) - rank(b.status);
+    if (byStatus !== 0) return byStatus;
+    const aTime = a.paidAt || a.createdAt || "";
+    const bTime = b.paidAt || b.createdAt || "";
+    return bTime.localeCompare(aTime);
+  });
+}
