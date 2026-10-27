@@ -65,7 +65,8 @@ export default function AdminShell({
               className={`admin-button ${
                 router.pathname.startsWith("/admin/survey") ||
                 router.pathname.startsWith("/admin/registrations") ||
-                router.pathname.startsWith("/admin/surveys-and-registrations")
+                router.pathname.startsWith("/admin/surveys-and-registrations") ||
+                router.pathname.startsWith("/admin/sama")
                   ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--ink)]"
                   : "border-white/15 bg-white/[0.05] text-[var(--hero-muted)] hover:border-[var(--accent)] hover:text-white"
               }`}

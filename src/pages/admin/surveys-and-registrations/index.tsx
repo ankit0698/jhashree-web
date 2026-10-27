@@ -46,6 +46,9 @@ export default function AdminSurveysAndRegistrationsPage() {
                 <h2 className="mt-3 font-serif text-2xl font-semibold text-[var(--ink)]">
                   View Roots and Reels Survey
                 </h2>
+                <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-red-600">
+                  Closed
+                </p>
                 <p className="mt-2 text-sm text-[var(--muted)]">
                   Content creator application form responses.
                 </p>
@@ -61,8 +64,26 @@ export default function AdminSurveysAndRegistrationsPage() {
                 <h2 className="mt-3 font-serif text-2xl font-semibold text-[var(--ink)]">
                   View Roots and Reels registration
                 </h2>
+                <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-red-600">
+                  Closed
+                </p>
                 <p className="mt-2 text-sm text-[var(--muted)]">
                   Sold tickets with serials, buyer details, and payment info.
+                </p>
+              </Link>
+
+              <Link
+                href="/admin/sama"
+                className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-soft)] transition hover:border-[var(--rust)]/40"
+              >
+                <p className="text-[0.58rem] font-bold uppercase tracking-[0.2em] text-[var(--rust)]">
+                  Creator applications
+                </p>
+                <h2 className="mt-3 font-serif text-2xl font-semibold text-[var(--ink)]">
+                  View Let&apos;s Play Sama survey
+                </h2>
+                <p className="mt-2 text-sm text-[var(--muted)]">
+                  Creator responses for the 21 November 2026 event.
                 </p>
               </Link>
             </div>

@@ -126,10 +126,10 @@ export default function RootsReelsTicketPage() {
         ) : null}
 
         <Link
-          href="/rootsnreels"
+          href="/"
           className="mt-8 inline-block text-sm font-semibold text-[var(--rust)]"
         >
-          ← Back to registration
+          ← Back to home
         </Link>
       </main>
     </div>

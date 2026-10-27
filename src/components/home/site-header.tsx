@@ -92,10 +92,10 @@ export default function SiteHeader() {
 
         <div className="hidden items-center gap-3 md:flex">
           <a
-            href="/rootsnreels"
+            href="/survey"
             className="site-button site-button-outline-light min-h-11 px-5 text-base"
           >
-            Roots &amp; Reels
+            Let&apos;s Play Sama
           </a>
           <a
             href="#contact"
@@ -146,11 +146,11 @@ export default function SiteHeader() {
               </a>
             ))}
             <a
-              href="/rootsnreels"
+              href="/survey"
               onClick={closeMenu}
               className="site-button site-button-outline-light mt-2 w-full"
             >
-              Roots &amp; Reels
+              Let&apos;s Play Sama
             </a>
             <a
               href="#contact"

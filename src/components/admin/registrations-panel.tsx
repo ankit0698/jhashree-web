@@ -330,11 +330,7 @@ export default function RegistrationsPanel({ user }: { user: User | null }) {
           <div>
             <h2 className="font-serif text-4xl font-semibold">No sales yet</h2>
             <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[var(--muted)]">
-              Paid tickets from{" "}
-              <a href="/rootsnreels" className="font-semibold text-[var(--rust)]">
-                /rootsnreels
-              </a>{" "}
-              will appear here.
+              Paid Roots &amp; Reels tickets will appear here.
             </p>
           </div>
         </div>
