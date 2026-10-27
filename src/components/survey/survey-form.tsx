@@ -1,53 +1,43 @@
 import type { FormEvent } from "react";
 import { useState } from "react";
 
-import {
-  SURVEY_NICHES,
-  SURVEY_PLATFORMS,
-  type SurveyNiche,
-  type SurveyPlatform,
-} from "@/types/survey";
-
 type FormStatus = "idle" | "submitting" | "success" | "error";
+type YesNo = "yes" | "no" | "";
 
-const fieldClassName =
-  "site-input";
+const fieldClassName = "site-input";
 
 const labelClassName =
   "text-[0.54rem] font-semibold uppercase tracking-[0.14em] text-[var(--rust)]";
 
-const tipClassName = "mt-1.5 text-[0.72rem] leading-5 text-[var(--muted)]";
-
 function FieldLabel({
   htmlFor,
   children,
+  hindi,
   optional = false,
 }: {
   htmlFor: string;
   children: string;
+  hindi: string;
   optional?: boolean;
 }) {
   return (
-    <label htmlFor={htmlFor} className={labelClassName}>
-      {children}
-      {optional ? (
-        <span className="ml-2 font-medium normal-case tracking-normal text-[var(--muted)]">
-          (optional)
-        </span>
-      ) : null}
+    <label htmlFor={htmlFor} className="block">
+      <span className={labelClassName}>
+        {children}
+        {optional ? (
+          <span className="ml-2 font-medium normal-case tracking-normal text-[var(--muted)]">
+            (optional)
+          </span>
+        ) : null}
+      </span>
+      <span className="mt-1 block text-[0.78rem] leading-5 text-[var(--muted)]">
+        {hindi}
+      </span>
     </label>
   );
 }
 
-function SectionHeading({
-  step,
-  title,
-  description,
-}: {
-  step: string;
-  title: string;
-  description?: string;
-}) {
+function SectionHeading({ step, title }: { step: string; title: string }) {
   return (
     <div className="border-b border-[var(--border)] pb-4">
       <p className="text-[0.58rem] font-bold uppercase tracking-[0.26em] text-[var(--rust)]">
@@ -56,22 +46,76 @@ function SectionHeading({
       <h2 className="mt-2 font-serif text-[1.65rem] leading-tight text-[var(--ink)] md:text-[1.9rem]">
         {title}
       </h2>
-      {description ? (
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-[var(--muted)]">
-          {description}
-        </p>
-      ) : null}
     </div>
+  );
+}
+
+function YesNoField({
+  name,
+  legend,
+  hindi,
+  value,
+  onChange,
+}: {
+  name: string;
+  legend: string;
+  hindi: string;
+  value: YesNo;
+  onChange: (next: YesNo) => void;
+}) {
+  return (
+    <fieldset>
+      <legend className={labelClassName}>{legend}</legend>
+      <p className="mt-1 text-[0.78rem] leading-5 text-[var(--muted)]">{hindi}</p>
+      <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
+        {(
+          [
+            ["yes", "Yes", "हाँ"],
+            ["no", "No", "नहीं"],
+          ] as const
+        ).map(([option, label, hindiLabel]) => (
+          <label
+            key={option}
+            className={`flex cursor-pointer items-center gap-3 rounded-lg border px-3.5 py-3 text-sm transition ${
+              value === option
+                ? "border-[var(--rust)]/40 bg-[var(--rust)]/[0.05] text-[var(--ink)]"
+                : "border-[var(--border)] bg-[var(--surface-soft)] text-[var(--foreground)] hover:border-[var(--rust)]/25"
+            }`}
+          >
+            <input
+              type="radio"
+              name={name}
+              value={option}
+              required
+              checked={value === option}
+              onChange={() => onChange(option)}
+              className="accent-[var(--rust)]"
+            />
+            <span>
+              {label}
+              <span className="ml-2 text-[var(--muted)]">{hindiLabel}</span>
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 }
 
 export default function SurveyForm() {
   const [formStatus, setFormStatus] = useState<FormStatus>("idle");
   const [formMessage, setFormMessage] = useState("");
-  const [primaryNiche, setPrimaryNiche] = useState<SurveyNiche | "">("");
-  const [hasSponsoredWork, setHasSponsoredWork] = useState<boolean | null>(
-    null,
-  );
+  const [wantsToPromoteCulture, setWantsToPromoteCulture] = useState<YesNo>("");
+  const [knowsSamaChakewa, setKnowsSamaChakewa] = useState<YesNo>("");
+  const [wantsToJoinEvent, setWantsToJoinEvent] = useState<YesNo>("");
+  const [interestedInCampaign, setInterestedInCampaign] = useState<YesNo>("");
+
+  function resetChoices() {
+    setWantsToPromoteCulture("");
+    setKnowsSamaChakewa("");
+    setWantsToJoinEvent("");
+    setInterestedInCampaign("");
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -79,9 +123,14 @@ export default function SurveyForm() {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    if (hasSponsoredWork === null) {
+    if (
+      !wantsToPromoteCulture ||
+      !knowsSamaChakewa ||
+      !wantsToJoinEvent ||
+      !interestedInCampaign
+    ) {
       setFormStatus("error");
-      setFormMessage("Tell us whether you have done sponsored brand work.");
+      setFormMessage("Please answer every yes or no question.");
       return;
     }
 
@@ -92,24 +141,24 @@ export default function SurveyForm() {
       fullName: formData.get("fullName"),
       contactNumber: formData.get("contactNumber"),
       email: formData.get("email"),
-      primaryNiche: formData.get("primaryNiche"),
-      primaryNicheOther: formData.get("primaryNicheOther"),
-      primaryPlatform: formData.get("primaryPlatform") as SurveyPlatform,
-      instagramHandle: formData.get("instagramHandle"),
+      address: formData.get("address"),
+      contentType: formData.get("contentType"),
+      instagramUsername: formData.get("instagramUsername"),
       instagramFollowers: formData.get("instagramFollowers"),
-      youtubeChannel: formData.get("youtubeChannel"),
+      facebookLink: formData.get("facebookLink"),
+      facebookFollowers: formData.get("facebookFollowers"),
+      youtubeLink: formData.get("youtubeLink"),
       youtubeSubscribers: formData.get("youtubeSubscribers"),
-      facebookPage: formData.get("facebookPage"),
-      contentUnique: formData.get("contentUnique"),
-      brandBenefit: formData.get("brandBenefit"),
-      brandIntegrationStyle: formData.get("brandIntegrationStyle"),
-      hasSponsoredWork,
-      samplePromoLinks: formData.get("samplePromoLinks"),
-      whyParticipate: formData.get("whyParticipate"),
+      wantsToPromoteCulture: wantsToPromoteCulture === "yes",
+      promoteCultureHow: formData.get("promoteCultureHow"),
+      promoteCultureWhy: formData.get("promoteCultureWhy"),
+      knowsSamaChakewa: knowsSamaChakewa === "yes",
+      wantsToJoinEvent: wantsToJoinEvent === "yes",
+      interestedInCampaign: interestedInCampaign === "yes",
     };
 
     try {
-      const response = await fetch("/api/survey", {
+      const response = await fetch("/api/sama", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -124,12 +173,8 @@ export default function SurveyForm() {
       }
 
       form.reset();
-      setPrimaryNiche("");
-      setHasSponsoredWork(null);
+      resetChoices();
       setFormStatus("success");
-      setFormMessage(
-        "Thank you. Your Roots & Reels Season 2 application has been received.",
-      );
     } catch (error) {
       setFormStatus("error");
       setFormMessage(
@@ -144,9 +189,9 @@ export default function SurveyForm() {
     return (
       <div
         role="status"
-        className="grid min-h-[22rem] place-items-center rounded-[1.25rem] border border-[var(--rust)]/15 bg-[var(--surface-soft)] px-6 py-12 text-center"
+        className="rounded-[1.25rem] border border-[var(--rust)]/15 bg-[var(--surface-soft)] px-6 py-12 text-center"
       >
-        <div className="max-w-md">
+        <div className="mx-auto max-w-xl">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[var(--rust)] text-white shadow-[0_10px_28px_rgba(166,57,30,0.22)]">
             <svg
               viewBox="0 0 24 24"
@@ -165,16 +210,32 @@ export default function SurveyForm() {
           </span>
 
           <p className="mt-5 text-[0.58rem] font-bold uppercase tracking-[0.22em] text-[var(--rust)]">
-            Application received
+            Submitted
           </p>
 
           <h2 className="mt-2 font-serif text-[2rem] leading-tight text-[var(--ink)] md:text-[2.35rem]">
-            You&apos;re on the list for Roots &amp; Reels.
+            Thank you.
           </h2>
 
-          <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
-            {formMessage} We&apos;ll review your profile and reach out if
-            selected.
+          <p className="mt-4 text-sm leading-7 text-[var(--muted)]">
+            Thank you for completing the survey and it has been successfully
+            submitted. Once reviewed by our experts will reach out you. If you
+            get shortlisted you will get an invitation on your mail with the
+            event and campaign details.
+          </p>
+          <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
+            Meanwhile you can follow our page:{" "}
+            <a
+              href="https://www.instagram.com/jhashree.vibe.vision"
+              className="font-semibold text-[var(--rust)]"
+              target="_blank"
+              rel="noreferrer"
+            >
+              @jhashree.vibe.vision
+            </a>
+          </p>
+          <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
+            For any queries drop an enquiry at our website footer.
           </p>
 
           <button
@@ -185,7 +246,7 @@ export default function SurveyForm() {
             }}
             className="site-button site-button-rust mt-7"
           >
-            Submit another application
+            Submit another response
             <span aria-hidden="true">→</span>
           </button>
         </div>
@@ -199,16 +260,14 @@ export default function SurveyForm() {
       className="overflow-hidden rounded-[1.25rem] border border-[var(--border)] bg-[var(--surface)]"
     >
       <div className="space-y-10 p-5 md:p-8">
-        {/* Section 1 */}
         <section className="space-y-4">
-          <SectionHeading
-            step="01"
-            title="Creator Profile & Contact Details"
-          />
+          <SectionHeading step="01" title="Your details" />
 
           <div className="grid gap-4 md:grid-cols-2">
             <div className="md:col-span-2">
-              <FieldLabel htmlFor="fullName">Full name</FieldLabel>
+              <FieldLabel htmlFor="fullName" hindi="नाम">
+                Name
+              </FieldLabel>
               <input
                 id="fullName"
                 name="fullName"
@@ -217,13 +276,13 @@ export default function SurveyForm() {
                 maxLength={160}
                 autoComplete="name"
                 placeholder="Your full name"
-                className={fieldClassName}
+                className={`${fieldClassName} mt-2`}
               />
             </div>
 
             <div>
-              <FieldLabel htmlFor="contactNumber">
-                Contact number (WhatsApp preferred)
+              <FieldLabel htmlFor="contactNumber" hindi="संपर्क नंबर">
+                Contact
               </FieldLabel>
               <input
                 id="contactNumber"
@@ -233,12 +292,14 @@ export default function SurveyForm() {
                 maxLength={30}
                 autoComplete="tel"
                 placeholder="+91 98765 43210"
-                className={fieldClassName}
+                className={`${fieldClassName} mt-2`}
               />
             </div>
 
             <div>
-              <FieldLabel htmlFor="email">Email address</FieldLabel>
+              <FieldLabel htmlFor="email" hindi="ईमेल">
+                Email
+              </FieldLabel>
               <input
                 id="email"
                 name="email"
@@ -247,131 +308,134 @@ export default function SurveyForm() {
                 maxLength={254}
                 autoComplete="email"
                 placeholder="you@example.com"
-                className={fieldClassName}
+                className={`${fieldClassName} mt-2`}
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <FieldLabel htmlFor="address" hindi="पता">
+                Address
+              </FieldLabel>
+              <textarea
+                id="address"
+                name="address"
+                required
+                maxLength={500}
+                rows={3}
+                autoComplete="street-address"
+                placeholder="Village, town, district"
+                className={`${fieldClassName} mt-2`}
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <FieldLabel htmlFor="contentType" hindi="आप किस तरह का कंटेंट बनाते हैं?">
+                What type of content do you make?
+              </FieldLabel>
+              <textarea
+                id="contentType"
+                name="contentType"
+                required
+                maxLength={500}
+                rows={3}
+                placeholder="Travel, culture, comedy, food…"
+                className={`${fieldClassName} mt-2`}
               />
             </div>
           </div>
-
-          <fieldset>
-            <legend className={labelClassName}>Primary niche / category</legend>
-            <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
-              {SURVEY_NICHES.map((niche) => (
-                <label
-                  key={niche.value}
-                  className={`flex cursor-pointer items-center gap-3 rounded-lg border px-3.5 py-3 text-sm transition ${
-                    primaryNiche === niche.value
-                      ? "border-[var(--rust)]/40 bg-[var(--rust)]/[0.05] text-[var(--ink)]"
-                      : "border-[var(--border)] bg-[var(--surface-soft)] text-[var(--foreground)] hover:border-[var(--rust)]/25"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="primaryNiche"
-                    value={niche.value}
-                    required
-                    checked={primaryNiche === niche.value}
-                    onChange={() => setPrimaryNiche(niche.value)}
-                    className="accent-[var(--rust)]"
-                  />
-                  {niche.label}
-                </label>
-              ))}
-            </div>
-          </fieldset>
-
-          {primaryNiche === "other" ? (
-            <div>
-              <FieldLabel htmlFor="primaryNicheOther">
-                Please specify your niche
-              </FieldLabel>
-              <input
-                id="primaryNicheOther"
-                name="primaryNicheOther"
-                type="text"
-                required
-                maxLength={120}
-                placeholder="Your niche"
-                className={fieldClassName}
-              />
-            </div>
-          ) : null}
         </section>
 
-        {/* Section 2 */}
         <section className="space-y-4">
-          <SectionHeading
-            step="02"
-            title="Social Media Reach & Analytics"
-          />
-
-          <fieldset>
-            <legend className={labelClassName}>Primary content platform</legend>
-            <div className="mt-3 grid gap-2.5 sm:grid-cols-2 md:grid-cols-4">
-              {SURVEY_PLATFORMS.map((platform) => (
-                <label
-                  key={platform.value}
-                  className="flex cursor-pointer items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--surface-soft)] px-3.5 py-3 text-sm transition hover:border-[var(--rust)]/25 has-[:checked]:border-[var(--rust)]/40 has-[:checked]:bg-[var(--rust)]/[0.05]"
-                >
-                  <input
-                    type="radio"
-                    name="primaryPlatform"
-                    value={platform.value}
-                    required
-                    className="accent-[var(--rust)]"
-                  />
-                  {platform.label}
-                </label>
-              ))}
-            </div>
-          </fieldset>
+          <SectionHeading step="02" title="Where you publish" />
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <FieldLabel htmlFor="instagramHandle" optional>
-                Instagram handle
+              <FieldLabel htmlFor="instagramUsername" hindi="इंस्टाग्राम यूजरनेम">
+                Instagram username
               </FieldLabel>
               <input
-                id="instagramHandle"
-                name="instagramHandle"
+                id="instagramUsername"
+                name="instagramUsername"
                 type="text"
+                required
                 maxLength={120}
                 placeholder="@yourname"
-                className={fieldClassName}
+                className={`${fieldClassName} mt-2`}
               />
             </div>
 
             <div>
-              <FieldLabel htmlFor="instagramFollowers" optional>
-                Instagram follower count
+              <FieldLabel htmlFor="instagramFollowers" hindi="इंस्टाग्राम फॉलोअर्स">
+                Instagram followers
               </FieldLabel>
               <input
                 id="instagramFollowers"
                 name="instagramFollowers"
                 type="number"
+                required
                 min={0}
                 step={1}
                 placeholder="e.g. 12000"
-                className={fieldClassName}
-              />
-            </div>
-
-            <div className="md:col-span-2">
-              <FieldLabel htmlFor="youtubeChannel" optional>
-                YouTube channel name &amp; link
-              </FieldLabel>
-              <input
-                id="youtubeChannel"
-                name="youtubeChannel"
-                type="text"
-                maxLength={500}
-                placeholder="Channel name and URL"
-                className={fieldClassName}
+                className={`${fieldClassName} mt-2`}
               />
             </div>
 
             <div>
-              <FieldLabel htmlFor="youtubeSubscribers" optional>
-                YouTube subscriber count
+              <FieldLabel htmlFor="facebookLink" hindi="फेसबुक लिंक">
+                Facebook link
+              </FieldLabel>
+              <input
+                id="facebookLink"
+                name="facebookLink"
+                type="url"
+                required
+                maxLength={500}
+                placeholder="https://facebook.com/yourpage"
+                className={`${fieldClassName} mt-2`}
+              />
+            </div>
+
+            <div>
+              <FieldLabel htmlFor="facebookFollowers" hindi="फेसबुक फॉलोअर्स">
+                Facebook followers
+              </FieldLabel>
+              <input
+                id="facebookFollowers"
+                name="facebookFollowers"
+                type="number"
+                required
+                min={0}
+                step={1}
+                placeholder="e.g. 8000"
+                className={`${fieldClassName} mt-2`}
+              />
+            </div>
+
+            <div>
+              <FieldLabel
+                htmlFor="youtubeLink"
+                hindi="यूट्यूब लिंक (यदि हो)"
+                optional
+              >
+                YouTube link
+              </FieldLabel>
+              <input
+                id="youtubeLink"
+                name="youtubeLink"
+                type="url"
+                maxLength={500}
+                placeholder="https://youtube.com/@yourchannel"
+                className={`${fieldClassName} mt-2`}
+              />
+            </div>
+
+            <div>
+              <FieldLabel
+                htmlFor="youtubeSubscribers"
+                hindi="यूट्यूब सब्सक्राइबर्स"
+                optional
+              >
+                YouTube subscribers
               </FieldLabel>
               <input
                 id="youtubeSubscribers"
@@ -380,190 +444,94 @@ export default function SurveyForm() {
                 min={0}
                 step={1}
                 placeholder="e.g. 5000"
-                className={fieldClassName}
-              />
-            </div>
-
-            <div>
-              <FieldLabel htmlFor="facebookPage" optional>
-                Facebook page link &amp; followers
-              </FieldLabel>
-              <input
-                id="facebookPage"
-                name="facebookPage"
-                type="text"
-                maxLength={500}
-                placeholder="Page URL and follower count"
-                className={fieldClassName}
+                className={`${fieldClassName} mt-2`}
               />
             </div>
           </div>
         </section>
 
-        {/* Section 3 */}
-        <section className="space-y-4">
-          <SectionHeading
-            step="03"
-            title="Brand Pitch & Creative Value"
+        <section className="space-y-5">
+          <SectionHeading step="03" title="Culture and the event" />
+
+          <YesNoField
+            name="wantsToPromoteCulture"
+            legend="Do you want to promote your culture with your content?"
+            hindi="क्या आप अपने कंटेंट से अपनी संस्कृति को बढ़ावा देना चाहते हैं?"
+            value={wantsToPromoteCulture}
+            onChange={setWantsToPromoteCulture}
           />
 
-          <div>
-            <FieldLabel htmlFor="contentUnique">
-              What makes your content unique?
-            </FieldLabel>
-            <textarea
-              id="contentUnique"
-              name="contentUnique"
-              required
-              maxLength={5000}
-              rows={4}
-              placeholder="Describe your style, tone, or connection with your regional audience."
-              className={`${fieldClassName} resize-y leading-6`}
-            />
-            <p className={tipClassName}>
-              Tip: Briefly describe your style, tone, or unique connection with
-              your regional audience.
-            </p>
-          </div>
-
-          <div>
-            <FieldLabel htmlFor="brandBenefit">
-              How can brands benefit from collaborating with your audience?
-            </FieldLabel>
-            <textarea
-              id="brandBenefit"
-              name="brandBenefit"
-              required
-              maxLength={5000}
-              rows={4}
-              placeholder="Share demographics, local influence, or engagement strengths."
-              className={`${fieldClassName} resize-y leading-6`}
-            />
-            <p className={tipClassName}>
-              Tip: Highlight your audience demographic, local influence, or high
-              engagement rate.
-            </p>
-          </div>
-
-          <div>
-            <FieldLabel htmlFor="brandIntegrationStyle">
-              How do you integrate brand promotions into your regular content
-              style?
-            </FieldLabel>
-            <textarea
-              id="brandIntegrationStyle"
-              name="brandIntegrationStyle"
-              required
-              maxLength={5000}
-              rows={4}
-              placeholder="Explain how sponsorships stay natural and authentic."
-              className={`${fieldClassName} resize-y leading-6`}
-            />
-            <p className={tipClassName}>
-              Tip: Explain how you keep sponsorships natural, entertaining, and
-              authentic for your viewers.
-            </p>
-          </div>
-        </section>
-
-        {/* Section 4 */}
-        <section className="space-y-4">
-          <SectionHeading step="04" title="Experience & Portfolio" />
-
-          <fieldset>
-            <legend className={labelClassName}>
-              Have you previously executed sponsored brand promotions or
-              commercial content?
-            </legend>
-            <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
-              {[
-                { value: true, label: "Yes" },
-                { value: false, label: "No" },
-              ].map((option) => (
-                <label
-                  key={String(option.value)}
-                  className={`flex cursor-pointer items-center gap-3 rounded-lg border px-3.5 py-3 text-sm transition ${
-                    hasSponsoredWork === option.value
-                      ? "border-[var(--rust)]/40 bg-[var(--rust)]/[0.05]"
-                      : "border-[var(--border)] bg-[var(--surface-soft)] hover:border-[var(--rust)]/25"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="hasSponsoredWork"
-                    value={String(option.value)}
-                    required
-                    checked={hasSponsoredWork === option.value}
-                    onChange={() => setHasSponsoredWork(option.value)}
-                    className="accent-[var(--rust)]"
-                  />
-                  {option.label}
-                </label>
-              ))}
-            </div>
-          </fieldset>
-
-          {hasSponsoredWork ? (
+          {wantsToPromoteCulture === "yes" ? (
             <div>
-              <FieldLabel htmlFor="samplePromoLinks">
-                Sample brand promotion link(s)
+              <FieldLabel htmlFor="promoteCultureHow" hindi="हाँ, तो कैसे?">
+                If yes, how?
               </FieldLabel>
               <textarea
-                id="samplePromoLinks"
-                name="samplePromoLinks"
+                id="promoteCultureHow"
+                name="promoteCultureHow"
                 required
                 maxLength={5000}
-                rows={3}
-                placeholder="Paste Google Drive, YouTube, or Instagram reel URLs."
-                className={`${fieldClassName} resize-y leading-6`}
+                rows={4}
+                className={`${fieldClassName} mt-2`}
               />
-              <p className={tipClassName}>
-                If Yes: Paste links showing your past brand integration work.
-              </p>
             </div>
-          ) : (
-            <input type="hidden" name="samplePromoLinks" value="" />
-          )}
+          ) : null}
 
-          <div>
-            <FieldLabel htmlFor="whyParticipate">
-              Why do you want to participate in Roots &amp; Reels Season 2?
-            </FieldLabel>
-            <textarea
-              id="whyParticipate"
-              name="whyParticipate"
-              required
-              maxLength={5000}
-              rows={4}
-              placeholder="Share what you hope to gain and bring to the event."
-              className={`${fieldClassName} resize-y leading-6`}
-            />
-          </div>
+          {wantsToPromoteCulture === "no" ? (
+            <div>
+              <FieldLabel htmlFor="promoteCultureWhy" hindi="नहीं, तो क्यों?">
+                If no, why?
+              </FieldLabel>
+              <textarea
+                id="promoteCultureWhy"
+                name="promoteCultureWhy"
+                required
+                maxLength={5000}
+                rows={4}
+                className={`${fieldClassName} mt-2`}
+              />
+            </div>
+          ) : null}
+
+          <YesNoField
+            name="knowsSamaChakewa"
+            legend="Do you know about Sama Chakewa?"
+            hindi="क्या आप सामा चकेवा के बारे में जानते हैं?"
+            value={knowsSamaChakewa}
+            onChange={setKnowsSamaChakewa}
+          />
+
+          <YesNoField
+            name="wantsToJoinEvent"
+            legend="Do you want to join an upcoming event on Sama Chakewa?"
+            hindi="क्या आप सामा चकेवा के आगामी कार्यक्रम में शामिल होना चाहते हैं?"
+            value={wantsToJoinEvent}
+            onChange={setWantsToJoinEvent}
+          />
+
+          <YesNoField
+            name="interestedInCampaign"
+            legend="Are you interested in being part of a cultural promotion campaign?"
+            hindi="क्या आप सांस्कृतिक प्रचार अभियान का हिस्सा बनना चाहते हैं?"
+            value={interestedInCampaign}
+            onChange={setInterestedInCampaign}
+          />
         </section>
 
-        <div className="flex flex-col gap-3 border-t border-[var(--border)] pt-6 md:flex-row md:items-center md:justify-between">
-          <button
-            type="submit"
-            disabled={formStatus === "submitting"}
-            className="site-button site-button-rust disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {formStatus === "submitting"
-              ? "Submitting…"
-              : "Submit application"}
-            <span aria-hidden="true">→</span>
-          </button>
+        {formStatus === "error" && formMessage ? (
+          <p role="alert" className="text-sm text-red-700">
+            {formMessage}
+          </p>
+        ) : null}
 
-          {formStatus === "error" && formMessage ? (
-            <p role="alert" className="max-w-md text-xs font-semibold text-red-700">
-              {formMessage}
-            </p>
-          ) : (
-            <p className="text-[0.68rem] text-[var(--muted)]">
-              Applications are reviewed by Jhashree Productions in Madhubani,
-              Bihar.
-            </p>
-          )}
-        </div>
+        <button
+          type="submit"
+          disabled={formStatus === "submitting"}
+          className="site-button site-button-rust"
+        >
+          {formStatus === "submitting" ? "Submitting…" : "Submit"}
+          <span aria-hidden="true">→</span>
+        </button>
       </div>
     </form>
   );

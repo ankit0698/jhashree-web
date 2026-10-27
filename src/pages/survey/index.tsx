@@ -38,13 +38,13 @@ export default function SurveyPage() {
           <div className="site-gutter relative z-10 mx-auto max-w-[52rem]">
             <div className="mb-8 text-center md:mb-10">
               <p className="text-[0.6rem] font-extrabold uppercase tracking-[0.34em] text-[var(--rust)]">
-                Roots &amp; Reels · Season 2
+                Jhashree Productions presents
               </p>
 
               <h1 className="mt-3 font-serif text-[2.45rem] leading-[0.95] tracking-[-0.03em] text-[var(--ink)] md:text-[3.4rem]">
-                Content Creator
+                Let&apos;s Play Sama
                 <span className="mt-1 block italic text-[var(--rust)]">
-                  Application Form
+                  Creator form
                 </span>
               </h1>
 
@@ -55,30 +55,28 @@ export default function SurveyPage() {
               </div>
 
               <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[var(--muted)] md:text-[0.95rem]">
-                Welcome to Roots &amp; Reels Season 2, hosted by Jhashree
-                Productions Private Limited in Madhubani, Bihar. Showcase your
-                creative voice, pitch directly to brands, and build long-term
-                commercial partnerships.
+                A celebration of Mithila&apos;s living tradition, organised by
+                Jhashree Productions Pvt. Ltd. with partner organisations and
+                market leaders. Tell us about the content you make.
               </p>
 
               <p className="mt-3 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--muted-strong)]">
-                Madhubani, Bihar
+                21 November 2026 · Madhubani Sadar
               </p>
             </div>
 
             <figure className="mb-8 overflow-hidden rounded-[1.25rem] border border-black/[0.08] bg-[var(--canvas)] shadow-[0_22px_60px_rgba(34,25,18,0.12)] md:mb-10">
               <Image
-                src="/assets/Roots-and-Reels.png"
-                alt="Roots & Reels Season 2 — Creator × Brand Connect in Madhubani, Bihar. For creators, brands, artists, and audiences."
-                width={1920}
-                height={1080}
+                src="/assets/sama_event_banner.PNG"
+                alt="Let's Play Saama — a celebration of Mithila's living tradition at Regional Secondary School, Jeevach Chowk, Madhubani. Shiwani Bhagat, performer of the evening."
+                width={1536}
+                height={1024}
                 priority
                 sizes="(max-width: 768px) 100vw, 52rem"
                 className="h-auto w-full object-cover object-top"
               />
               <figcaption className="border-t border-white/[0.08] bg-[var(--canvas)] px-4 py-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--hero-muted)] md:px-6">
-                Creator × Brand Connect · Where local talent meets local
-                business
+                Let&apos;s Play Sama · 21 November 2026 · Madhubani Sadar
               </figcaption>
             </figure>
 
@@ -95,8 +93,8 @@ export default function SurveyPage() {
 SurveyPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <Layout
-      title="Roots & Reels Season 2 Application | Jhashree Productions"
-      description="Apply as a content creator for Roots & Reels Season 2 by Jhashree Productions in Madhubani, Bihar."
+      title="Let's Play Sama Creator Form | Jhashree Productions"
+      description="Apply as a creator for Let's Play Sama, 21 November 2026 in Madhubani Sadar, organised by Jhashree Productions."
     >
       {page}
     </Layout>

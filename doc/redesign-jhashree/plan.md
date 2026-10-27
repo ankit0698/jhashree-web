@@ -245,3 +245,4 @@ Winners move to `public/assets/redesign/` and get wired in code.
 
 1. You mark each candidate image: **keep / drop / regenerate**.
 2. Switch to implementation starting Phase 1 (tokens + fonts), then Home, then forms, then admin.
+    

@@ -11,6 +11,7 @@ import {
   INTEREST_OPTIONS,
   type AdminRegistration,
 } from "@/types/registration";
+import type { SamaCreatorApplication } from "@/types/sama";
 import {
   SURVEY_NICHES,
   SURVEY_PLATFORMS,
@@ -51,6 +52,7 @@ function drawHeader(
   title: string,
   subtitle: string,
   downloadedAt: string,
+  eventLine = "Roots & Reels Season 2 · Organizer export",
 ) {
   const logoPath = path.join(process.cwd(), "public/assets/brand-logo.png");
   if (fs.existsSync(logoPath)) {
@@ -67,7 +69,7 @@ function drawHeader(
     .font("Helvetica")
     .fontSize(9)
     .fillColor("#6c665e")
-    .text("Roots & Reels Season 2 · Organizer export", 96, 56);
+    .text(eventLine, 96, 56);
 
   doc
     .font("Helvetica-Bold")
@@ -311,6 +313,61 @@ export async function buildSurveyApplicationsPdf(
         `${index + 1}. ${app.fullName}`,
         surveyFields(app),
       );
+    });
+  });
+}
+
+function samaFields(app: SamaCreatorApplication): FieldRow[] {
+  return [
+    { label: "Full name", value: text(app.fullName) },
+    { label: "Contact number", value: text(app.contactNumber) },
+    { label: "Email", value: text(app.email) },
+    { label: "Status", value: text(app.status) },
+    { label: "Address", value: text(app.address) },
+    { label: "Content type", value: text(app.contentType) },
+    { label: "Instagram username", value: text(app.instagramUsername) },
+    { label: "Instagram followers", value: text(app.instagramFollowers) },
+    { label: "Facebook link", value: text(app.facebookLink) },
+    { label: "Facebook followers", value: text(app.facebookFollowers) },
+    { label: "YouTube link", value: text(app.youtubeLink) },
+    { label: "YouTube subscribers", value: text(app.youtubeSubscribers) },
+    {
+      label: "Wants to promote culture",
+      value: text(app.wantsToPromoteCulture),
+    },
+    { label: "How they would promote culture", value: text(app.promoteCultureHow) },
+    { label: "Why they would not", value: text(app.promoteCultureWhy) },
+    { label: "Knows Sama Chakewa", value: text(app.knowsSamaChakewa) },
+    { label: "Wants to join the event", value: text(app.wantsToJoinEvent) },
+    {
+      label: "Interested in cultural campaign",
+      value: text(app.interestedInCampaign),
+    },
+    { label: "Submitted at", value: formatDate(app.createdAt) },
+  ];
+}
+
+export async function buildSamaApplicationsPdf(
+  applications: SamaCreatorApplication[],
+) {
+  const downloadedAt = formatDate(new Date().toISOString());
+
+  return renderPdf((doc) => {
+    drawHeader(
+      doc,
+      "Let's Play Sama",
+      `${applications.length} creator response${applications.length === 1 ? "" : "s"}`,
+      downloadedAt,
+      "Let's Play Sama · Organizer export",
+    );
+
+    if (applications.length === 0) {
+      doc.font("Helvetica").fontSize(11).text("No Let's Play Sama responses found.");
+      return;
+    }
+
+    applications.forEach((app, index) => {
+      drawRecordCard(doc, `${index + 1}. ${app.fullName}`, samaFields(app));
     });
   });
 }

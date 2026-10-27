@@ -4,6 +4,7 @@ import { EnquiryValidationError } from "@/lib/enquiries/validation";
 import { AdminAuthenticationError } from "@/lib/firebase/require-admin";
 import { RegistrationPaymentError } from "@/lib/registration/server";
 import { RegistrationValidationError } from "@/lib/registration/validation";
+import { SamaValidationError } from "@/lib/sama/validation";
 import { SurveyValidationError } from "@/lib/survey/validation";
 import { TicketRenderError } from "@/lib/tickets/render-pass";
 import { WorkValidationError } from "@/lib/works/validation";
@@ -36,6 +37,7 @@ export function sendApiError(
     error instanceof WorkValidationError ||
     error instanceof EnquiryValidationError ||
     error instanceof SurveyValidationError ||
+    error instanceof SamaValidationError ||
     error instanceof RegistrationValidationError
   ) {
     response.status(400).json({ error: error.message });
