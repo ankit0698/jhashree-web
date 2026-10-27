@@ -327,9 +327,9 @@ function samaFields(app: SamaCreatorApplication): FieldRow[] {
     { label: "Content type", value: text(app.contentType) },
     { label: "Instagram username", value: text(app.instagramUsername) },
     { label: "Instagram followers", value: text(app.instagramFollowers) },
-    { label: "Facebook link", value: text(app.facebookLink) },
+    { label: "Facebook link/username", value: text(app.facebookLink) },
     { label: "Facebook followers", value: text(app.facebookFollowers) },
-    { label: "YouTube link", value: text(app.youtubeLink) },
+    { label: "YouTube link/username", value: text(app.youtubeLink) },
     { label: "YouTube subscribers", value: text(app.youtubeSubscribers) },
     {
       label: "Wants to promote culture",

@@ -149,14 +149,18 @@ export function validateSamaCreatorApplicationInput(
     "Instagram username",
     120,
   ).replace(/^@+/, "");
-  const facebookLink = readRequiredString(
+  const facebookLink = readOptionalString(
     value.facebookLink,
-    "Facebook link",
+    "Facebook link/username",
     500,
+  );
+  const facebookFollowers = readOptionalNonNegativeInteger(
+    value.facebookFollowers,
+    "Facebook followers",
   );
   const youtubeLink = readOptionalString(
     value.youtubeLink,
-    "YouTube link",
+    "YouTube link/username",
     500,
   );
   const youtubeSubscribers = readOptionalNonNegativeInteger(
@@ -164,9 +168,15 @@ export function validateSamaCreatorApplicationInput(
     "YouTube subscribers",
   );
 
+  if (!facebookLink && facebookFollowers !== null) {
+    throw new SamaValidationError(
+      "Add a Facebook link or username if you enter a follower count.",
+    );
+  }
+
   if (!youtubeLink && youtubeSubscribers !== null) {
     throw new SamaValidationError(
-      "Add a YouTube link if you enter a subscriber count.",
+      "Add a YouTube link or username if you enter a subscriber count.",
     );
   }
 
@@ -207,10 +217,7 @@ export function validateSamaCreatorApplicationInput(
       "Instagram followers",
     ),
     facebookLink,
-    facebookFollowers: readRequiredNonNegativeInteger(
-      value.facebookFollowers,
-      "Facebook followers",
-    ),
+    facebookFollowers: facebookLink ? facebookFollowers : null,
     youtubeLink,
     youtubeSubscribers: youtubeLink ? youtubeSubscribers : null,
     wantsToPromoteCulture,

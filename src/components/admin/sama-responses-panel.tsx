@@ -92,12 +92,18 @@ function ApplicationDetail({
           label="Instagram followers"
           value={application.instagramFollowers}
         />
-        <DetailField label="Facebook link" value={application.facebookLink} />
+        <DetailField
+          label="Facebook link/username"
+          value={application.facebookLink}
+        />
         <DetailField
           label="Facebook followers"
           value={application.facebookFollowers}
         />
-        <DetailField label="YouTube link" value={application.youtubeLink} />
+        <DetailField
+          label="YouTube link/username"
+          value={application.youtubeLink}
+        />
         <DetailField
           label="YouTube subscribers"
           value={application.youtubeSubscribers}

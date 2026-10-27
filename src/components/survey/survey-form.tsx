@@ -381,29 +381,35 @@ export default function SurveyForm() {
             </div>
 
             <div>
-              <FieldLabel htmlFor="facebookLink" hindi="फेसबुक लिंक">
-                Facebook link
+              <FieldLabel
+                htmlFor="facebookLink"
+                hindi="फेसबुक लिंक/यूजरनेम"
+                optional
+              >
+                Facebook Link/Username
               </FieldLabel>
               <input
                 id="facebookLink"
                 name="facebookLink"
-                type="url"
-                required
+                type="text"
                 maxLength={500}
-                placeholder="https://facebook.com/yourpage"
+                placeholder="Link or @username"
                 className={`${fieldClassName} mt-2`}
               />
             </div>
 
             <div>
-              <FieldLabel htmlFor="facebookFollowers" hindi="फेसबुक फॉलोअर्स">
+              <FieldLabel
+                htmlFor="facebookFollowers"
+                hindi="फेसबुक फॉलोअर्स"
+                optional
+              >
                 Facebook followers
               </FieldLabel>
               <input
                 id="facebookFollowers"
                 name="facebookFollowers"
                 type="number"
-                required
                 min={0}
                 step={1}
                 placeholder="e.g. 8000"
@@ -414,17 +420,17 @@ export default function SurveyForm() {
             <div>
               <FieldLabel
                 htmlFor="youtubeLink"
-                hindi="यूट्यूब लिंक (यदि हो)"
+                hindi="यूट्यूब लिंक/यूजरनेम"
                 optional
               >
-                YouTube link
+                YouTube Link/Username
               </FieldLabel>
               <input
                 id="youtubeLink"
                 name="youtubeLink"
-                type="url"
+                type="text"
                 maxLength={500}
-                placeholder="https://youtube.com/@yourchannel"
+                placeholder="Link or @username"
                 className={`${fieldClassName} mt-2`}
               />
             </div>

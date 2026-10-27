@@ -14,8 +14,8 @@ export type SamaCreatorApplicationInput = {
   contentType: string;
   instagramUsername: string;
   instagramFollowers: number;
-  facebookLink: string;
-  facebookFollowers: number;
+  facebookLink: string | null;
+  facebookFollowers: number | null;
   youtubeLink: string | null;
   youtubeSubscribers: number | null;
   wantsToPromoteCulture: boolean;
@@ -34,8 +34,8 @@ export type SamaCreatorApplicationRow = {
   content_type: string;
   instagram_username: string;
   instagram_followers: number;
-  facebook_link: string;
-  facebook_followers: number;
+  facebook_link: string | null;
+  facebook_followers: number | null;
   youtube_link: string | null;
   youtube_subscribers: number | null;
   wants_to_promote_culture: boolean;
