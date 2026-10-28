@@ -67,10 +67,10 @@ export default function SurveyPage() {
 
             <figure className="mb-8 overflow-hidden rounded-[1.25rem] border border-black/[0.08] bg-[var(--canvas)] shadow-[0_22px_60px_rgba(34,25,18,0.12)] md:mb-10">
               <Image
-                src="/assets/sama_event_banner.PNG"
-                alt="Let's Play Saama — a celebration of Mithila's living tradition at Regional Secondary School, Jeevach Chowk, Madhubani. Shiwani Bhagat, performer of the evening."
-                width={1536}
-                height={1024}
+                src="/assets/IMG_0638.PNG"
+                alt="Jhashree Productions — We are coming with something historical. Follow for updates @jhashree.vibe.vision."
+                width={3919}
+                height={3919}
                 priority
                 sizes="(max-width: 768px) 100vw, 52rem"
                 className="h-auto w-full object-cover object-top"
